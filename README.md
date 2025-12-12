@@ -28,3 +28,9 @@ Deploy to Cloudflare Workers:
 ```bash
 bun run wrangler deploy
 ```
+
+## Sdk generation
+
+```bash
+bunx --bun orval --input https://api.uprizing.me/v1/openapi.json --output ./packages/exec0-sdk --client fetch
+```

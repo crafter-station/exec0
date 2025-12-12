@@ -1,7 +1,7 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run wrangler dev"
   },
   "dependencies": {
     "@cloudflare/sandbox": "^0.6.6",

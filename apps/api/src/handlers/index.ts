@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: <Fix before please xo> */
 import { getSandbox } from "@cloudflare/sandbox";
 import type { Context } from "hono";
 import { getOutput } from "@/lib";
