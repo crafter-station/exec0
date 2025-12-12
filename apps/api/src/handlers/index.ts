@@ -15,11 +15,27 @@ export const createExecuteHandler = (
       const ctx = await sandbox.createCodeContext({ language });
       const result = await sandbox.runCode(body.code, { context: ctx });
 
-      return c.json({
-        output: getOutput(result),
-        error: result.error?.toString(),
-        executionTime: Date.now() - startTime,
-      });
+      const hasError = result.error !== null && result.error !== undefined;
+
+      let errorMessage = null;
+      if (hasError) {
+        const err = result.error;
+        errorMessage =
+          typeof err === "string"
+            ? err
+            : (err as any).message ||
+              (err as any).traceback ||
+              JSON.stringify(err);
+      }
+
+      return c.json(
+        {
+          output: getOutput(result),
+          error: errorMessage,
+          executionTime: Date.now() - startTime,
+        },
+        hasError ? 400 : 200,
+      );
     } catch (err) {
       return c.json(
         {
