@@ -8,6 +8,7 @@ export default defineConfig({
       client: "fetch",
       biome: true,
       clean: true,
+      baseUrl: "https://api.uprizing.me",
     },
   },
 });
