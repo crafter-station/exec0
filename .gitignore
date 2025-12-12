@@ -39,3 +39,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # sst
 .sst
 sst-env.d.ts
+
+# orval
+packages/exec0-sdk/src

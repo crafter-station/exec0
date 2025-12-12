@@ -1,36 +1,76 @@
-# exec0
+# Exec0 SDK
 
-## Install dependencies:
+SDK for executing code in multiple programming languages.
 
-```bash
-bun install
-```
-
-## Login Cloudflare
+## Installation
 
 ```bash
-bun run wrangler login
+npm install exec0
 ```
 
-## Run development server:
+## Usage
 
-```bash
-# ./ base path
-bun run dev
+### Execute Python
+
+```javascript
+import { executePython } from 'exec0';
+
+const result = await executePython({
+  code: 'print("Hello world")',
+  timeout: 5000
+});
+
+console.log(result.data.output);
+console.log(result.data.executionTime);
 ```
 
-Deploy to Cloudflare Workers (manual)
+### Execute JavaScript
 
-```bash
-cd apps/api
+```javascript
+import { executeJavaScript } from 'exec0';
+
+const result = await executeJavaScript({
+  code: 'console.log("Hello world")',
+  timeout: 5000
+});
+
+console.log(result.data.output);
 ```
 
-```bash
-bun run wrangler deploy
+### Execute TypeScript
+
+```javascript
+import { executeTypeScript } from 'exec0';
+
+const result = await executeTypeScript({
+  code: 'console.log("Hello world")',
+  timeout: 5000
+});
+
+console.log(result.data.output);
 ```
 
-## Sdk generation
+## Response
 
-```bash
-bun run sdk
+Each function returns an object with the following structure:
+
+```javascript
+{
+  data: {
+    output: string,
+    error?: string,
+    executionTime: number
+  },
+  status: number,
+  headers: Headers
+}
 ```
+
+## Parameters
+
+- `code`: Code to execute (required, minimum 1 character)
+- `timeout`: Maximum execution time in milliseconds (optional)
+
+## Errors
+
+If an error occurs during execution, it will be available in `data.error`.

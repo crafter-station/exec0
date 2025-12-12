@@ -1,0 +1,13 @@
+{
+  "name": "exec0",
+  "version": "0.1.0",
+  "description": "SDK for Code Execution API",
+  "main": "src/index.ts",
+  "type": "module",
+  "files": [
+    "src/index.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
