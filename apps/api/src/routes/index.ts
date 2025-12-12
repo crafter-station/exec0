@@ -8,6 +8,7 @@ const app = new Hono();
 app.post(
   "/python",
   describeRoute({
+    operationId: "executePython",
     description: "Execute Python code",
     responses: {
       200: {
@@ -27,6 +28,7 @@ app.post(
 app.post(
   "/javascript",
   describeRoute({
+    operationId: "executeJavaScript",
     description: "Execute JavaScript code",
     responses: {
       200: {
@@ -46,6 +48,7 @@ app.post(
 app.post(
   "/typescript",
   describeRoute({
+    operationId: "executeTypeScript",
     description: "Execute TypeScript code",
     responses: {
       200: {
