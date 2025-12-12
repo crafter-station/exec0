@@ -1,5 +1,17 @@
 {
   "name": "exec0",
+  "type": "module",
+  "private": true,
+  "packageManager": "bun@1.3.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run turbo dev",
+    "lint": "biome check --fix",
+    "format": "biome format --write"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
     "@types/bun": "latest",
@@ -8,17 +20,5 @@
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "packageManager": "bun@1.3.4",
-  "private": true,
-  "scripts": {
-    "format": "biome format --write",
-    "lint": "biome check --fix",
-    "dev": "bun run turbo dev"
-  },
-  "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
