@@ -19,10 +19,14 @@ app.get(
     documentation: {
       info: {
         title: "Code Execution API",
-        version: "1.0.0",
-        description: "API para ejecutar código en múltiples lenguajes",
+        version: "0.1.0",
+        description:
+          "API for executing code snippets in various programming languages.",
       },
-      servers: [{ url: "http://localhost:8787", description: "Local Server" }],
+      servers: [
+        { url: "https://api.uprizing.me", description: "Production Server" },
+        { url: "http://localhost:8787", description: "Local Server" },
+      ],
     },
   }),
 );
