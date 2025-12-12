@@ -1,5 +1,5 @@
 {
-  "name": "exec0",
+  "name": "exec0-sdk",
   "version": "0.1.0",
   "description": "SDK for Code Execution API",
   "main": "src/index.ts",
