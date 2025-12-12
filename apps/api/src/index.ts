@@ -8,7 +8,7 @@ export { Sandbox } from "@cloudflare/sandbox";
 const app = new Hono();
 
 app.get("/", (c) => {
-  return c.text("Welcome to Exec0");
+  return c.text("Welcome to Exec0!!");
 });
 
 app.route("/api/v1/execute", executeRoutes);
