@@ -1,2 +1,13 @@
 # deps
 node_modules/
+
+# Wrangler
+.wrangler/
+dist/
+build/
+
+# Docker
+.docker/
+
+# Logs
+*.log

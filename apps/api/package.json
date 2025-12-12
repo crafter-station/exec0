@@ -4,9 +4,16 @@
     "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
-    "hono": "^4.10.8"
+    "@cloudflare/sandbox": "^0.6.6",
+    "@hono/standard-validator": "^0.2.0",
+    "@hono/zod-validator": "^0.7.5",
+    "@scalar/hono-api-reference": "^0.9.28",
+    "hono": "^4.10.8",
+    "hono-openapi": "^1.1.2",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "wrangler": "^4.54.0"
   }
 }
