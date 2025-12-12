@@ -1,7 +1,8 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "bun run wrangler dev"
+    "dev": "bun run wrangler dev",
+    "deploy": "bun run wrangler deploy"
   },
   "dependencies": {
     "@cloudflare/sandbox": "^0.6.6",
