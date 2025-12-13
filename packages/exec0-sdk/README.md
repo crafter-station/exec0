@@ -5,7 +5,7 @@ SDK for executing code in multiple programming languages.
 ## Installation
 
 ```bash
-npm install exec0-sdk
+npm install @exec0/sdk
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install exec0-sdk
 ### Execute Python
 
 ```javascript
-import { executePython } from 'exec0-sdk';
+import { executePython } from '@exec0/sdk';
 
 const result = await executePython({
   code: 'print("Hello world")',
@@ -27,7 +27,7 @@ console.log(result.data.executionTime);
 ### Execute JavaScript
 
 ```javascript
-import { executeJavaScript } from 'exec0-sdk';
+import { executeJavaScript } from '@exec0/sdk';
 
 const result = await executeJavaScript({
   code: 'console.log("Hello world")',
@@ -40,7 +40,7 @@ console.log(result.data.output);
 ### Execute TypeScript
 
 ```javascript
-import { executeTypeScript } from 'exec0-sdk';
+import { executeTypeScript } from '@exec0/sdk';
 
 const result = await executeTypeScript({
   code: 'console.log("Hello world")',
