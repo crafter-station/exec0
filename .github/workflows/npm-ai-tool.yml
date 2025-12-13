@@ -1,4 +1,4 @@
-name: Publish Exec0 SDK to npm
+name: Publish Exec0 ai tool to npm
 
 on:
   push:
