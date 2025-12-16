@@ -1,15 +1,9 @@
-import {
-  executeJavaScript,
-  executePython,
-  executeTypeScript,
-} from "@exec0/sdk";
+import { run } from "@exec0/run";
 import { tool } from "ai";
 import { z } from "zod";
 
-const DEFAULT_TIMEOUT = 20000;
-
 export const exec0Tools = {
-  executePython: tool({
+  runPython: tool({
     description:
       "Execute Python code and return the output. Use only Python standard library",
     inputSchema: z.object({
@@ -17,14 +11,10 @@ export const exec0Tools = {
     }),
     execute: async ({ code }) => {
       try {
-        const result = await executePython({
-          code,
-          timeout: DEFAULT_TIMEOUT,
-        });
+        const result = await run.python(code);
         return {
-          success: true,
+          success: result.data.success,
           output: result.data.output,
-          executionTime: result.data.executionTime,
           error: result.data.error,
         };
       } catch (error) {
@@ -36,7 +26,7 @@ export const exec0Tools = {
     },
   }),
 
-  executeJavaScript: tool({
+  runJavaScript: tool({
     description:
       "Execute JavaScript code and return the output. Use only JavaScript standard library",
     inputSchema: z.object({
@@ -44,14 +34,10 @@ export const exec0Tools = {
     }),
     execute: async ({ code }) => {
       try {
-        const result = await executeJavaScript({
-          code,
-          timeout: DEFAULT_TIMEOUT,
-        });
+        const result = await run.javascript(code);
         return {
-          success: true,
+          success: result.data.success,
           output: result.data.output,
-          executionTime: result.data.executionTime,
           error: result.data.error,
         };
       } catch (error) {
@@ -63,7 +49,7 @@ export const exec0Tools = {
     },
   }),
 
-  executeTypeScript: tool({
+  runTypeScript: tool({
     description:
       "Execute TypeScript code and return the output. Use only TypeScript standard library",
     inputSchema: z.object({
@@ -71,14 +57,10 @@ export const exec0Tools = {
     }),
     execute: async ({ code }) => {
       try {
-        const result = await executeTypeScript({
-          code,
-          timeout: DEFAULT_TIMEOUT,
-        });
+        const result = await run.typescript(code);
         return {
-          success: true,
+          success: result.data.success,
           output: result.data.output,
-          executionTime: result.data.executionTime,
           error: result.data.error,
         };
       } catch (error) {

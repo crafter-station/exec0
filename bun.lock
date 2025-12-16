@@ -34,10 +34,15 @@
       "name": "@exec0/ai-tool",
       "version": "0.1.1",
       "dependencies": {
+        "@exec0/run": "^0.1.0",
         "@exec0/sdk": "^0.1.2",
         "ai": "^5.0.113",
         "zod": "^4.1.13",
       },
+    },
+    "packages/exec0-node": {
+      "name": "@exec0/run",
+      "version": "0.1.0",
     },
     "packages/exec0-sdk": {
       "name": "@exec0/sdk",
@@ -156,6 +161,8 @@
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.27.0", "", { "os": "win32", "cpu": "x64" }, "sha512-aIitBcjQeyOhMTImhLZmtxfdOcuNRpwlPNmlFKPcHQYPhEssw75Cl1TSXJXpMkzaua9FUetx/4OQKq7eJul5Cg=="],
 
     "@exec0/ai-tool": ["@exec0/ai-tool@workspace:packages/exec0-ai"],
+
+    "@exec0/run": ["@exec0/run@workspace:packages/exec0-node"],
 
     "@exec0/sdk": ["@exec0/sdk@workspace:packages/exec0-sdk"],
 
@@ -926,6 +933,8 @@
     "youch-core": ["youch-core@0.3.3", "", { "dependencies": { "@poppinss/exception": "^1.2.2", "error-stack-parser-es": "^1.0.5" } }, "sha512-ho7XuGjLaJ2hWHoK8yFnsUGy2Y5uDpqSTq1FkHLK4/oqKtyUU1AFbOOxY4IpC9f0fTLjwYbslUz0Po5BpD1wrA=="],
 
     "zod": ["zod@4.1.13", "", {}, "sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig=="],
+
+    "@exec0/ai-tool/@exec0/run": ["@exec0/run@0.1.0", "", {}, "sha512-RMRSMTe/yBvxlJaixOxt1k/kzobxYBSiEAQewtfjutI1GisNAYrXQ7vcexmHVOwY0bxoM/lEvaScrCqlVYDMFg=="],
 
     "@ibm-cloud/openapi-ruleset/minimatch": ["minimatch@6.2.0", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-sauLxniAmvnhhRjFwPNnJKaPFYyddAgbYdeUpHULtCT/GhzdCx/MDNy+Y40lBxTQUrMzDE8e0S43Z5uqfO0REg=="],
 

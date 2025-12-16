@@ -11,6 +11,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@exec0/run": "^0.1.0",
     "@exec0/sdk": "^0.1.2",
     "ai": "^5.0.113",
     "zod": "^4.1.13"
