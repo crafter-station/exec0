@@ -1,7 +1,7 @@
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { openAPIRouteHandler } from "hono-openapi";
-import executeRoutes from "@/routes";
+import {routes} from "@/routes";
 
 export { Sandbox } from "@cloudflare/sandbox";
 
@@ -11,7 +11,7 @@ app.get("/", (c) => {
   return c.text("Welcome to Exec0!!");
 });
 
-app.route("/api/v1/execute", executeRoutes);
+app.route("/api/v1", routes);
 
 app.get(
   "/v1/openapi.json",

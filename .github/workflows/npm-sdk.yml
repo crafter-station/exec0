@@ -18,10 +18,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Build SDK
-        run: bun run sdk
-
       - name: Publish to npm
-        run: bun publish --cwd ./packages/exec0-sdk
+        run: bun publish --cwd ./packages/exec0-node
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
