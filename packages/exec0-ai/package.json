@@ -1,6 +1,6 @@
 {
   "name": "@exec0/ai-tool",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Ai tool for Agent Code Execution",
   "main": "src/index.ts",
   "type": "module",

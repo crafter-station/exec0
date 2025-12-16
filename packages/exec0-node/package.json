@@ -1,6 +1,6 @@
 {
   "name": "@exec0/run",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SDK for Code Execution API",
   "main": "src/index.ts",
   "type": "module",
