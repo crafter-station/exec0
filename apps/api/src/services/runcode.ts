@@ -50,11 +50,37 @@ async function executeCode(
   }
 }
 
-// Public API to run code with language, code, and sandbox binding
+const JS_POLYFILLS = `
+const _nf = require('node-fetch');
+const fetch = globalThis.fetch || _nf;
+const Headers = globalThis.Headers || _nf.Headers;
+const Request = globalThis.Request || _nf.Request;
+const Response = globalThis.Response || _nf.Response;
+const URL = globalThis.URL || require('url').URL;
+const URLSearchParams = globalThis.URLSearchParams || require('url').URLSearchParams;
+const TextEncoder = globalThis.TextEncoder || require('util').TextEncoder;
+const TextDecoder = globalThis.TextDecoder || require('util').TextDecoder;
+const Buffer = globalThis.Buffer || require('buffer').Buffer;
+const btoa = globalThis.btoa || ((s) => Buffer.from(s, 'binary').toString('base64'));
+const atob = globalThis.atob || ((s) => Buffer.from(s, 'base64').toString('binary'));
+const crypto = globalThis.crypto || require('crypto');
+const AbortController = globalThis.AbortController || require('abort-controller').AbortController;
+const AbortSignal = globalThis.AbortSignal || require('abort-controller').AbortSignal;
+const FormData = globalThis.FormData || require('form-data');
+const setTimeout = globalThis.setTimeout;
+const setInterval = globalThis.setInterval;
+const clearTimeout = globalThis.clearTimeout;
+const clearInterval = globalThis.clearInterval;
+`;
+
 export async function runCode(
   language: Language,
   code: string,
   sandboxBinding: string,
 ) {
-  return executeCode({ language, code }, sandboxBinding);
+  const wrappedCode =
+    language === "javascript" || language === "typescript"
+      ? `${JS_POLYFILLS}${code}`
+      : code;
+  return executeCode({ language, code: wrappedCode }, sandboxBinding);
 }
