@@ -10,13 +10,11 @@
   "scripts": {
     "dev": "bun run turbo dev",
     "lint": "biome check --fix",
-    "format": "biome format --write",
-    "sdk": "bunx --bun orval"
+    "format": "biome format --write"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
     "@types/bun": "latest",
-    "orval": "^7.17.0",
     "turbo": "^2.6.3"
   },
   "peerDependencies": {
