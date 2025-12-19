@@ -9,15 +9,19 @@
   ],
   "scripts": {
     "dev": "bun run turbo dev",
-    "lint": "biome check --fix",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "lint": "biome check --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
+    "@types/aws-lambda": "8.10.159",
     "@types/bun": "latest",
     "turbo": "^2.6.3"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "sst": "3.17.25"
   }
 }

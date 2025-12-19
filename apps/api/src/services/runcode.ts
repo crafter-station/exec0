@@ -12,7 +12,9 @@ async function executeCode(
 
   try {
     // Get or create a sandbox instance
-    const sandbox = getSandbox(sandboxBinding, "default");
+    const sandbox = getSandbox(sandboxBinding, "default", {
+      sleepAfter: "30s",
+    });
 
     // Create a code context for the specified language
     const ctx = await sandbox.createCodeContext({
