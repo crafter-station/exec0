@@ -7,13 +7,10 @@ export default $config({
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
       home: "aws",
+      providers: { "@pulumiverse/vercel": "3.15.1" },
     };
   },
   async run() {
-    new sst.aws.Function("RunTypescript", {
-      handler: "apps/functions/typescript/index.handler",
-      memory: "128 MB",
-      url: true,
-    });
+    await import("./infra/functions");
   },
 });
