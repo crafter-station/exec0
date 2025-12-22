@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "bun run turbo dev",
     "format": "biome format --write",
-    "lint": "biome check --fix"
+    "lint": "biome check --fix",
+    "auth:generate": "@better-auth/cli@latest generate --config ./packages/auth/src/lib/auth.ts --output ./packages/database/prisma/schema.prisma"
   },
   "type": "module",
   "workspaces": [
