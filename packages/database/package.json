@@ -17,9 +17,12 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.957.0",
+    "@aws-sdk/util-dynamodb": "^3.957.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "zod": "^4.2.1"
   },
   "exports": {
     ".": "./src/index.ts"

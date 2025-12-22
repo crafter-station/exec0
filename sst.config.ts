@@ -10,6 +10,7 @@ export default $config({
   },
   async run() {
     const { api } = await import("./infra/functions");
+    await import("./infra/dynamodb");
 
     return {
       apiUrl: api.url,
