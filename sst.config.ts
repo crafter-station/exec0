@@ -1,5 +1,4 @@
 /// <reference path="./.sst/platform/config.d.ts" />
-
 export default $config({
   app(input) {
     return {
@@ -7,10 +6,13 @@ export default $config({
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
       home: "aws",
-      providers: { "@pulumiverse/vercel": "3.15.1" },
     };
   },
   async run() {
-    await import("./infra/functions");
+    const { api } = await import("./infra/functions");
+
+    return {
+      apiUrl: api.url,
+    };
   },
 });

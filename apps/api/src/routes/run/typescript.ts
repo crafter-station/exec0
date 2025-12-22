@@ -1,12 +1,9 @@
+import { InvokeCommand, LambdaClient } from "@aws-sdk/client-lambda";
 import { Hono } from "hono";
-import { describeRoute, resolver, validator as zValidator } from "hono-openapi";
-import {
-  errorResponseSchema,
-  runRequestSchema,
-  runResponseSchema,
-} from "@/schemas";
-import { runCode } from "@/services/runcode";
+import { describeRoute, validator as zValidator } from "hono-openapi";
+import { runRequestSchema } from "@/schemas";
 
+const lambda = new LambdaClient();
 const app = new Hono();
 
 app.post(
@@ -14,35 +11,29 @@ app.post(
   describeRoute({
     operationId: "runTypescript",
     description: "Run Typescript code",
-    responses: {
-      200: {
-        description: "Successful execution",
-        content: {
-          "application/json": {
-            schema: resolver(runResponseSchema),
-            example: {
-              code: 'console.log("Hello, World!")',
-            },
-          },
-        },
-      },
-      400: {
-        description: "Execution error",
-        content: {
-          "application/json": {
-            schema: resolver(errorResponseSchema),
-          },
-        },
-      },
-    },
   }),
   zValidator("json", runRequestSchema),
   async (c) => {
-    const env = c.env as { Sandbox: string };
     const body = c.req.valid("json");
 
-    const result = await runCode("typescript", body.code, env.Sandbox);
-    return c.json(result, result.success ? 200 : 400);
+    const startTime = Date.now();
+    const response = await lambda.send(
+      new InvokeCommand({
+        FunctionName: process.env.TYPESCRIPT_ARN,
+        InvocationType: "RequestResponse",
+        Payload: JSON.stringify({ code: body.code }),
+      }),
+    );
+    const executionTime = Date.now() - startTime;
+
+    const lambdaResponse = JSON.parse(
+      new TextDecoder().decode(response.Payload),
+    );
+    const result = JSON.parse(lambdaResponse.body);
+    return c.json({
+      ...result,
+      executionTime,
+    });
   },
 );
 

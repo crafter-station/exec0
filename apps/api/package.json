@@ -1,20 +1,22 @@
 {
-  "name": "api",
+  "name": "api-v2",
+  "type": "module",
   "scripts": {
-    "dev": "bun run wrangler dev",
-    "deploy": "bun run wrangler deploy"
-  },
-  "dependencies": {
-    "@cloudflare/sandbox": "^0.6.6",
-    "@hono/standard-validator": "^0.2.0",
-    "@hono/zod-validator": "^0.7.5",
-    "@scalar/hono-api-reference": "^0.9.28",
-    "hono": "^4.10.8",
-    "hono-openapi": "^1.1.2",
-    "zod": "^4.1.13"
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "deploy": "run-s build zip update",
+    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
+    "zip": "zip -j lambda.zip dist/index.js"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "wrangler": "^4.54.0"
+    "@types/aws-lambda": "8.10.159",
+    "esbuild": "^0.21.4",
+    "npm-run-all2": "^6.2.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-lambda": "^3.956.0",
+    "@scalar/hono-api-reference": "^0.9.30",
+    "hono": "^4.11.1",
+    "hono-openapi": "^1.1.2",
+    "zod": "^4.2.1"
   }
 }

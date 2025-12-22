@@ -3,6 +3,6 @@ import { runRouter } from "./run";
 
 const app = new Hono();
 
-app.route("/run", runRouter)
+app.route("/run", runRouter);
 
-export { app as routes}
+export { app as routes };
