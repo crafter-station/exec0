@@ -1,1 +1,3 @@
-console.log("Hello via Bun!");
+import { auth } from "./lib/auth";
+
+export { auth };

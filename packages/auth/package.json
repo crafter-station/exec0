@@ -11,5 +11,8 @@
   "dependencies": {
     "better-auth": "^1.4.7",
     "@exec0/db": "*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
   }
 }

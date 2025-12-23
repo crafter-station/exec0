@@ -1,6 +1,8 @@
 import { createKeys } from "keypal";
 import customStorage from "./storage";
 
+export { ApiKeyErrorCode } from "keypal";
+
 const keys = createKeys({
   // Key generation
   prefix: "ex0_",
@@ -33,5 +35,5 @@ const keys = createKeys({
 
 export default keys;
 export { default as keys } from "./index";
-export * from "./utils";
 export * from "./storage";
+export * from "./utils";

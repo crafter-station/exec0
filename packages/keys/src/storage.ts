@@ -1,7 +1,8 @@
 import { DynamoDBTable } from "@exec0/db";
 import type { ApiKeyRecord, Storage } from "keypal";
+import { Resource } from "sst";
 
-const apiKeysTable = new DynamoDBTable("ApiKeys");
+const apiKeysTable = new DynamoDBTable(Resource.ApiKeys.name);
 
 const customStorage: Storage = {
   save: async (record) => {

@@ -10,10 +10,12 @@ export default $config({
   },
   async run() {
     const { api } = await import("./infra/functions");
-    await import("./infra/dynamodb");
+    const { apiKeysTable, usageTable } = await import("./infra/dynamodb");
 
     return {
       apiUrl: api.url,
+      apiKeysTableName: apiKeysTable.name,
+      usageTableName: usageTable.name,
     };
   },
 });

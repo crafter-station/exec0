@@ -11,6 +11,7 @@ app.post(
   describeRoute({
     operationId: "runTypescript",
     description: "Run Typescript code",
+    security: [{ ApiKeyAuth: [] }],
   }),
   zValidator("json", runRequestSchema),
   async (c) => {

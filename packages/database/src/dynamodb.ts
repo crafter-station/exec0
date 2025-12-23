@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: <DynamoDB> */
 import {
   DeleteItemCommand,
   DynamoDBClient,
@@ -13,6 +12,10 @@ const dynamoDBClient = new DynamoDBClient({
   region: process.env.AWS_REGION || "us-east-2",
 });
 
+const marshallOptions = {
+  removeUndefinedValues: true,
+};
+
 export class DynamoDBTable {
   private tableName: string;
 
@@ -24,7 +27,7 @@ export class DynamoDBTable {
     await dynamoDBClient.send(
       new PutItemCommand({
         TableName: this.tableName,
-        Item: marshall(record),
+        Item: marshall(record, marshallOptions),
       }),
     );
     return record;
@@ -34,7 +37,7 @@ export class DynamoDBTable {
     const result = await dynamoDBClient.send(
       new GetItemCommand({
         TableName: this.tableName,
-        Key: marshall(key),
+        Key: marshall(key, marshallOptions),
       }),
     );
     return result.Item ? unmarshall(result.Item) : null;
@@ -48,9 +51,12 @@ export class DynamoDBTable {
     const result = await dynamoDBClient.send(
       new UpdateItemCommand({
         TableName: this.tableName,
-        Key: marshall(key),
+        Key: marshall(key, marshallOptions),
         UpdateExpression: updateExpression,
-        ExpressionAttributeValues: marshall(expressionAttributeValues),
+        ExpressionAttributeValues: marshall(
+          expressionAttributeValues,
+          marshallOptions,
+        ),
         ReturnValues: "ALL_NEW",
       }),
     );
@@ -61,7 +67,7 @@ export class DynamoDBTable {
     await dynamoDBClient.send(
       new DeleteItemCommand({
         TableName: this.tableName,
-        Key: marshall(key),
+        Key: marshall(key, marshallOptions),
       }),
     );
   }
@@ -76,7 +82,10 @@ export class DynamoDBTable {
         TableName: this.tableName,
         IndexName: indexName,
         KeyConditionExpression: keyConditionExpression,
-        ExpressionAttributeValues: marshall(expressionAttributeValues),
+        ExpressionAttributeValues: marshall(
+          expressionAttributeValues,
+          marshallOptions,
+        ),
       }),
     );
     return result.Items ? result.Items.map((item) => unmarshall(item)) : [];
