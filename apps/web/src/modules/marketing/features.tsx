@@ -1,13 +1,13 @@
 "use client";
-import DottedMap from "dotted-map";
-import { Activity, BotMessageSquare, Map as MapIcon } from "lucide-react";
-import { Area, AreaChart, CartesianGrid } from "recharts";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@exec0/ui/chart";
+import DottedMap from "dotted-map";
+import { Activity, BotMessageSquare, Map as MapIcon } from "lucide-react";
+import { Area, AreaChart, CartesianGrid } from "recharts";
 
 export default function FeaturesSection() {
   return (

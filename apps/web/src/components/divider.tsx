@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <Vibe code> */
 export default function DiagonalDivider() {
   return (
-    <svg className="h-6 w-full stroke-border">
+    <svg className="h-6 w-full stroke-border border-r border-l">
       <title>Divider</title>
       <defs>
         <pattern

@@ -5,11 +5,11 @@ import Hero from "@/modules/marketing/hero";
 export default function Home() {
   return (
     <div>
-      <div className="px-5">
+      <div className="px-6">
         <DiagonalDivider />
       </div>
       <Hero />
-      <div className="px-5">
+      <div className="px-6">
         <DiagonalDivider />
       </div>
       <FeaturesSection />

@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@exec0/ui/button";
 import dynamic from "next/dynamic";
 import { AnimatedGroup } from "@/components/ui/animated-group";
-import { Button } from "@/components/ui/button";
 import { TextEffect } from "@/components/ui/text-effect";
 
 // Lazy load GameOfLife sin SSR

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../../../components/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -124,11 +128,11 @@
 }
 
 ::selection {
-  @apply bg-stone-400 text-stone-950;
+  @apply bg-violet-400 text-violet-950;
 }
 
 .dark ::selection {
-  @apply bg-stone-900 text-stone-100;
+  @apply bg-violet-950 text-violet-300;
 }
 
 /* Custom scrollbar */

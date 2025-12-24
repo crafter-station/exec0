@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@exec0/ui/*": ["../../packages/ui/src/*"]
     }
   },
   "include": [
