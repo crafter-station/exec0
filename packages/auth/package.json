@@ -13,6 +13,7 @@
     "@exec0/db": "*"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./client": "./src/lib/auth-client.ts"
   }
 }

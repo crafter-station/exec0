@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
 
-// Lazy load GameOfLife sin SSR
+// Lazy load GameOfLife not SSR
 const GameOfLife = dynamic(() => import("./background"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-background" />,
@@ -35,9 +35,9 @@ export default function Hero() {
   return (
     <main className="overflow-hidden border mx-4 bg-background">
       <section className="relative">
-        <div className="absolute inset-0">
+        {/*<div className="absolute inset-0">
           <GameOfLife />
-        </div>
+        </div>*/}
         <div className="mx-auto max-w-7xl px-6">
           <div className="py-22 md:py-44 sm:mx-auto lg:mr-auto lg:mt-0">
             <TextEffect
