@@ -16,7 +16,7 @@
     "dev": "bun run turbo dev",
     "format": "biome format --write",
     "lint": "biome check --fix",
-    "auth:generate": "bunx --bun @better-auth/cli@latest generate --config ./packages/auth/src/lib/auth.ts --output ./packages/database/prisma/schema.prisma"
+    "auth:generate": "bun x @better-auth/cli@latest generate --config ./packages/auth/src/lib/auth.ts --output ./packages/database/prisma/schema.prisma"
   },
   "type": "module",
   "workspaces": [

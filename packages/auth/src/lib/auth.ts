@@ -8,6 +8,13 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  socialProviders: {
+    vercel: {
+      clientId: process.env.VERCEL_CLIENT_ID as string,
+      clientSecret: process.env.VERCEL_CLIENT_SECRET as string,
+      scope: ["email"],
+    },
+  },
   secondaryStorage: {
     get: async (key) => {
       return await redis.get(key);
@@ -19,11 +26,6 @@ export const auth = betterAuth({
     delete: async (key) => {
       await redis.del(key);
     },
-  },
-  emailAndPassword: {
-    enabled: true,
-    requireEmailVerification: false,
-    autoSignIn: true,
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days

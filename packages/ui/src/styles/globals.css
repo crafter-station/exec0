@@ -154,3 +154,8 @@
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.logo {
+  view-transition-name: logo-title;
+  width: fit-content;
+}

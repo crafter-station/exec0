@@ -14,6 +14,10 @@
   },
   "exports": {
     "./button": "./src/components/button.tsx",
+    "./input": "./src/components/input.tsx",
+    "./label": "./src/components/label.tsx",
+    "./spinner": "./src/components/spinner.tsx",
+    "./badge": "./src/components/badge.tsx",
     "./chart": "./src/components/chart.tsx",
     "./assets": "./src/assets/index.tsx",
     "./globals.css": "./src/styles/globals.css",
@@ -24,6 +28,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
