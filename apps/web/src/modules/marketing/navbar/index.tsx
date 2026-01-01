@@ -13,14 +13,17 @@ export function Navbar() {
             Exec0
           </div>
           <li>
-            <Link href="/" className="text-muted-foreground hover:text-primary">
+            <Link
+              href="/"
+              className="text-muted-foreground hover:text-primary text-sm"
+            >
               Home
             </Link>
           </li>
           <li>
             <Link
               href="/about"
-              className="text-muted-foreground hover:text-primary"
+              className="text-muted-foreground hover:text-primary text-sm"
             >
               About
             </Link>
@@ -28,7 +31,7 @@ export function Navbar() {
           <li>
             <Link
               href="/contact"
-              className="text-muted-foreground hover:text-primary"
+              className="text-muted-foreground hover:text-primary text-sm"
             >
               Contact
             </Link>
