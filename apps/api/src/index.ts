@@ -1,10 +1,14 @@
 import { Scalar } from "@scalar/hono-api-reference";
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
+import { logger } from "hono/logger";
 import { openAPIRouteHandler } from "hono-openapi";
 import { routes } from "@/routes";
+import { Resource } from "sst";
 
-const app = new Hono();
+const app = new Hono().basePath("/api");
+
+app.use(logger());
 
 app.get("/", (c) => {
   return c.text("Welcome to Exec0!!");
@@ -25,12 +29,12 @@ app.get(
       },
       servers: [
         {
-          url: "https://evirb3f7zsh6j7z626pl6gczme0pnzgz.lambda-url.us-east-1.on.aws/",
+          url: "https://exec0.run",
           description: "Production Server Preview",
         },
         {
-          url: "https://76apw4cpbbs7xbkln26gv7q7xm0ryfcb.lambda-url.us-east-1.on.aws/",
-          description: "Local Server",
+          url: Resource.Exec0Router.url,
+          description: "Public URL",
         },
       ],
       components: {
