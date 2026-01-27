@@ -1,15 +1,21 @@
 "use client";
 
 import { Button } from "@exec0/ui/button";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
+import dynamic from "next/dynamic";
+import CodeEditor from "./code-editor";
 
-// Lazy load GameOfLife sin SSR
+// // Lazy load GameOfLife not SSR
 const GameOfLife = dynamic(() => import("./background"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-background" />,
 });
+// const CodeEditor = dynamic(() => import("./code-editor"), {
+//   ssr: false,
+//   loading: () => <div className="absolute inset-0 bg-background" />,
+// });
 
 const transitionVariants = {
   item: {
@@ -39,7 +45,7 @@ export default function Hero() {
           <GameOfLife />
         </div>
         <div className="mx-auto max-w-7xl px-6">
-          <div className="py-22 md:py-44 sm:mx-auto lg:mr-auto lg:mt-0">
+          <div className="py-22 md:pb-44 flex flex-col items-center text-center">
             <TextEffect
               preset="fade-in-blur"
               speedSegment={0.3}
@@ -72,10 +78,26 @@ export default function Hero() {
                 },
                 item: transitionVariants.item,
               }}
-              className="mt-12 flex items-center gap-2"
+              className="mt-12 flex items-center justify-center gap-2"
             >
               <Button>Start building</Button>
               <Button variant="ghost">Request a demo</Button>
+            </AnimatedGroup>
+            <AnimatedGroup
+              variants={{
+                container: {
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 0.95,
+                    },
+                  },
+                },
+                ...transitionVariants,
+              }}
+              className="mt-12 w-full max-w-6xl"
+            >
+              <CodeEditor />
             </AnimatedGroup>
           </div>
         </div>

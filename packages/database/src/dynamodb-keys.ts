@@ -9,7 +9,7 @@ import {
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 
 const dynamoDBClient = new DynamoDBClient({
-  region: process.env.AWS_REGION || "us-east-2",
+  region: process.env.AWS_REGION || "us-east-1",
 });
 
 const marshallOptions = {

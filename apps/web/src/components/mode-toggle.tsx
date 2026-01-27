@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@exec0/ui/button";
 import { useTheme } from "next-themes";
 import { IconLightbulb3FillDuo18 } from "nucleo-ui-essential-fill-duo-18";
-import { Button } from "@exec0/ui/button";
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 

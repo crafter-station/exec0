@@ -1,0 +1,319 @@
+/**
+ * Evil Rabbit Theme for Prism.js
+ * Based on Evil Rabbit Zed Theme
+ * Author: Artem Zakharchenko
+ * Adapted for Prism.js
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #ffffff;
+  background: none;
+  font-family: "Courier New", Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection {
+  background: #ffffff20;
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+  background: #ffffff20;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #0f0f0f;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+
+/* Comments */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #666666;
+}
+
+/* Punctuation */
+.token.punctuation {
+  color: #a7a7a7;
+}
+
+/* Keywords & Tags */
+.token.tag,
+.token.keyword,
+.token.operator,
+.token.atrule,
+.token.attr-value {
+  color: #a7a7a7;
+}
+
+/* Strings */
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #a7a7a7;
+}
+
+/* Numbers & Constants */
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted,
+.token.boolean {
+  color: #ffffff;
+}
+
+/* Properties & Functions */
+.token.property,
+.token.function,
+.token.class-name,
+.token.selector,
+.token.attr-selector,
+.token.parameter,
+.token.variable {
+  color: #ffffff;
+}
+
+/* Entity & URL */
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #a7a7a7;
+}
+
+/* Regex & Important */
+.token.regex,
+.token.important {
+  color: #a7a7a7;
+}
+
+/* Bold & Italic */
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+/* Deleted & Inserted */
+.token.deleted {
+  color: #ffffff;
+}
+
+.token.inserted {
+  color: #a7a7a7;
+}
+
+/* Namespace */
+.token.namespace {
+  opacity: 0.7;
+  color: #a7a7a7;
+}
+
+/* Line Highlighting */
+.line-highlight {
+  background: #ffffff10;
+  border-left: 3px solid #ffffff;
+}
+
+.line-highlight:before,
+.line-highlight[data-end]:after {
+  background-color: #ffffff32;
+  color: #ffffff;
+}
+
+/* Line Numbers */
+.line-numbers .line-numbers-rows {
+  border-right: 1px solid #ffffff10;
+  background: #0f0f0f;
+}
+
+.line-numbers .line-numbers-rows > span:before {
+  color: #ffffff32;
+}
+
+pre.line-numbers {
+  padding-left: 3.8em;
+}
+
+/* Toolbar overrides */
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > a,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > button {
+  color: #0f0f0f;
+  background: #a7a7a7;
+}
+
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > a:hover,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > a:focus,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > button:hover,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > button:focus {
+  color: #0f0f0f;
+  background: #a7a7a7;
+  text-decoration: none;
+}
+
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > span,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:hover,
+div.code-toolbar > .toolbar.toolbar > .toolbar-item > span:focus {
+  color: #0f0f0f;
+  background: #666666;
+}
+
+/* Diff Highlight */
+pre.diff-highlight > code .token.deleted:not(.prefix),
+pre > code.diff-highlight .token.deleted:not(.prefix) {
+  background-color: #ffffff15;
+}
+
+pre.diff-highlight > code .token.inserted:not(.prefix),
+pre > code.diff-highlight .token.inserted:not(.prefix) {
+  background-color: #ffffff15;
+}
+
+/* Command Line */
+.command-line .command-line-prompt {
+  border-right: 1px solid #ffffff10;
+}
+
+.command-line .command-line-prompt > span:before {
+  color: #ffffff32;
+}
+
+/* Match Braces */
+.rainbow-braces .token.punctuation.brace-level-1,
+.rainbow-braces .token.punctuation.brace-level-5,
+.rainbow-braces .token.punctuation.brace-level-9 {
+  color: #a7a7a7;
+}
+
+.rainbow-braces .token.punctuation.brace-level-2,
+.rainbow-braces .token.punctuation.brace-level-6,
+.rainbow-braces .token.punctuation.brace-level-10 {
+  color: #a7a7a7;
+}
+
+.rainbow-braces .token.punctuation.brace-level-3,
+.rainbow-braces .token.punctuation.brace-level-7,
+.rainbow-braces .token.punctuation.brace-level-11 {
+  color: #a7a7a7;
+}
+
+.rainbow-braces .token.punctuation.brace-level-4,
+.rainbow-braces .token.punctuation.brace-level-8,
+.rainbow-braces .token.punctuation.brace-level-12 {
+  color: #a7a7a7;
+}
+
+/* Scrollbar styling */
+pre[class*="language-"]::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb {
+  background: #ffffff20;
+  border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+  background: #ffffff32;
+}
+
+/* Markdown specific */
+.language-markdown .token.title,
+.language-markdown .token.title .token.punctuation {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.language-markdown .token.blockquote.punctuation {
+  color: #a7a7a7;
+}
+
+.language-markdown .token.code {
+  color: #a7a7a7;
+}
+
+.language-markdown .token.hr.punctuation {
+  color: #ffffff;
+}
+
+.language-markdown .token.url .token.content {
+  color: #ffffff;
+}
+
+.language-markdown .token.url-link {
+  color: #a7a7a7;
+}
+
+.language-markdown .token.list.punctuation {
+  color: #a7a7a7;
+}
+
+.language-markdown .token.table-header {
+  color: #ffffff;
+}
+
+/* JSON specific */
+.language-json .token.operator {
+  color: #ffffff;
+}
+
+/* SCSS specific */
+.language-scss .token.variable {
+  color: #a7a7a7;
+}
+
+/* TypeScript specific */
+.language-typescript .token.keyword {
+  color: #a7a7a7;
+}
+
+.language-typescript .token.class-name {
+  color: #ffffff;
+}
+
+.language-typescript .token.function {
+  color: #ffffff;
+}
