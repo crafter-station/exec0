@@ -8,10 +8,11 @@ import Silk from "@/modules/auth/silk";
 import { authClient } from "@exec0/auth/client";
 import { toast } from "sonner";
 import { Spinner } from "@exec0/ui/components/spinner";
+import { getCachedOrgSlug } from "@/hooks/use-org-slug";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
-
+  const slug = getCachedOrgSlug();
   return (
     <div className="flex h-screen w-screen">
       {/* Left side */}
@@ -58,7 +59,7 @@ export default function LoginPage() {
               await authClient.signIn.social(
                 {
                   provider: "vercel",
-                  callbackURL: "/dashboard",
+                  callbackURL: slug ? `/${slug}` : "/teams",
                 },
                 {
                   onRequest: () => setLoading(true),

@@ -6,11 +6,12 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 export function Logo({ size = "20px", ...props }: IconProps) {
   return (
     <svg
-      width="264"
-      height="227"
+      width={size}
+      height={size}
       viewBox="0 0 264 227"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
       {...props}
     >
       <title>Exec0</title>

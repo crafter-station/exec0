@@ -1,39 +1,25 @@
-import { createKeys } from "keypal";
-import customStorage from "./storage";
+import { createKeys as createKeysLib } from "keypal";
+import type { Storage } from "keypal";
+import { createStorage } from "./storage";
 
 export { ApiKeyErrorCode } from "keypal";
 
-const keys = createKeys({
-  // Key generation
-  prefix: "ex0_",
-  length: 32,
+export function createKeysInstance(storage: Storage) {
+  return createKeysLib({
+    prefix: "ex0_",
+    length: 32,
+    algorithm: "sha256",
+    salt: process.env.API_KEY_SALT,
+    storage,
+    autoTrackUsage: true,
+    auditLogs: true,
+    auditContext: {
+      metadata: { service: "api-keys" },
+    },
+    headerNames: ["x-api-key", "authorization"],
+    extractBearer: true,
+  });
+}
 
-  // Security
-  algorithm: "sha256",
-  salt: process.env.API_KEY_SALT,
-
-  // Storage
-  storage: customStorage,
-
-  // Caching
-  // cache: true,
-  // cacheTtl: 60,
-
-  // Usage tracking
-  autoTrackUsage: true,
-
-  // Audit logging
-  auditLogs: true,
-  auditContext: {
-    metadata: { service: "api-keys" },
-  },
-
-  // Header detection
-  headerNames: ["x-api-key", "authorization"],
-  extractBearer: true,
-});
-
-export default keys;
-export { default as keys } from "./index";
-export * from "./storage";
-export * from "./utils";
+export { createStorage };
+// export * from "./utils";

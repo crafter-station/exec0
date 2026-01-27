@@ -15,6 +15,9 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline: "bg-background rounded-sm",
+        planpro:
+          "bg-violet-600/10 text-violet-600 inset-ring inset-ring-violet-600/20 border-transparent",
+        planfreetier: "bg-background rounded-sm",
       },
     },
     defaultVariants: {

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@exec0/ui/styles/globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import "@exec0/ui/globals.css";
 import { ViewTransitions } from "next-view-transitions";
-import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/theme-toaster";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,11 +34,11 @@ export default function RootLayout({
         >
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="system"
             disableTransitionOnChange
           >
             {children}
-            <Toaster richColors />
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

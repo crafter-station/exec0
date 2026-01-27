@@ -1,5 +1,5 @@
-import keys, { ApiKeyErrorCode } from "@exec0/keys";
 import { createMiddleware } from "hono/factory";
+import keys, { ApiKeyErrorCode } from "@/lib/keys";
 
 export const authMiddleware = createMiddleware(async (c, next) => {
   const result = await keys.verify(c.req.raw.headers);

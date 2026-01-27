@@ -1,7 +1,6 @@
 import { Logo } from "@exec0/ui/assets";
-import { Button } from "@exec0/ui/button";
 import { Link } from "next-view-transitions";
-import ModeToggle from "@/components/mode-toggle";
+import { NavbarButtons } from "./navbar-buttons";
 
 export function Navbar() {
   return (
@@ -9,8 +8,8 @@ export function Navbar() {
       <div className="px-6 flex items-center justify-between">
         <ul className="flex gap-6 items-center py-1">
           <div className="font-semibold text-lg flex items-center gap-2.5">
-            <Logo className="size-7 logo" />
-            Exec0
+            <Logo size="28px" className=" logo" />
+            {/*Exec0*/}
           </div>
           <li>
             <Link
@@ -38,15 +37,7 @@ export function Navbar() {
           </li>
         </ul>
         <div className="flex items-center gap-4">
-          <ModeToggle />
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/login" prefetch={true}>
-              Login
-            </Link>
-          </Button>
-          <Button variant="default" size="sm">
-            SignUp
-          </Button>
+          <NavbarButtons />
         </div>
       </div>
     </nav>

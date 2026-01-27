@@ -119,7 +119,7 @@ const GameOfLife = () => {
 
   return (
     // <div className="mask-r-from-10% mask-l-from-90% pointer-events-none overflow-hidden select-none">
-    <div className="mask-t-from-90% mask-b-from-80% mask-r-from-50% mask-l-from-98% pointer-events-none overflow-hidden select-none">
+    <div className="mask-t-from-95% mask-b-from-98% mask-r-from-90% mask-l-from-90% pointer-events-none overflow-hidden select-none">
       <canvas ref={canvasRef} width={1500} height={700} />
     </div>
   );

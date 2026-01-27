@@ -2,6 +2,8 @@ import { prisma, redis } from "@exec0/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth/minimal";
 import { organization } from "better-auth/plugins";
+import { reservedSlugs } from "../const";
+import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   appName: "Exec0",
@@ -12,7 +14,7 @@ export const auth = betterAuth({
     vercel: {
       clientId: process.env.VERCEL_CLIENT_ID as string,
       clientSecret: process.env.VERCEL_CLIENT_SECRET as string,
-      scope: ["email"],
+      scope: ["email", "profile"],
     },
   },
   secondaryStorage: {
@@ -35,5 +37,25 @@ export const auth = betterAuth({
       maxAge: 15 * 60, // Cache duration in seconds
     },
   },
-  plugins: [organization()],
+  plugins: [
+    organization({
+      organizationHooks: {
+        beforeCreateOrganization: async (data) => {
+          if (
+            reservedSlugs.includes(data.organization.slug?.toLowerCase() || "")
+          ) {
+            throw new Error(
+              `The slug "${data.organization.slug}" is reserved and cannot be used`,
+            );
+          }
+          return {
+            data: {
+              ...data.organization,
+            },
+          };
+        },
+      },
+    }),
+    nextCookies(),
+  ],
 });

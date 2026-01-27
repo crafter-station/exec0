@@ -10,7 +10,7 @@ export async function handler(event: any) {
     if (!code) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "code es requerido" }),
+        body: JSON.stringify({ error: "code is required" }),
       };
     }
 
