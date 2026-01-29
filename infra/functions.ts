@@ -6,6 +6,7 @@ export const runTypescript = new sst.aws.Function("RunTypescript", {
   memory: "256 MB",
   runtime: "nodejs22.x",
   architecture: "arm64",
+  logging: false,
 });
 
 export const runJavascript = new sst.aws.Function("RunJavascript", {
@@ -13,6 +14,7 @@ export const runJavascript = new sst.aws.Function("RunJavascript", {
   memory: "256 MB",
   runtime: "nodejs22.x",
   architecture: "arm64",
+  logging: false,
 });
 
 export const runGo = new sst.aws.Function("RunGo", {
@@ -20,6 +22,7 @@ export const runGo = new sst.aws.Function("RunGo", {
   memory: "256 MB",
   runtime: "go",
   architecture: "arm64",
+  logging: false,
 });
 
 export const api = new sst.aws.Function("Api", {

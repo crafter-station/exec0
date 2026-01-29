@@ -26,7 +26,6 @@ app.post(
       }),
     );
     const executionTime = Date.now() - startTime;
-    console.log("Lambda response payload:", response.Payload);
     const result = JSON.parse(new TextDecoder().decode(response.Payload));
 
     return c.json({
