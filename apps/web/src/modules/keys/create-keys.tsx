@@ -57,7 +57,7 @@ export function CreateApiKeyDialog({ slug }: { slug: string }) {
             Create API Key
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-full sm:max-w-150 p-0 shadow-xl">
+        <DialogContent className="w-full sm:max-w-150 p-0 shadow-xl top-[40%]">
           <form action={action}>
             <div className="px-4 space-y-3 w-full py-4">
               <DialogHeader>
