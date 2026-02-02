@@ -1,15 +1,6 @@
-import ThemeToggleText from "@/components/mode-togle-text";
+import type { auth } from "@exec0/auth";
 import { Logo } from "@exec0/ui/assets";
 import { Avatar, AvatarFallback, AvatarImage } from "@exec0/ui/avatar";
-import { Button } from "@exec0/ui/button";
-import { Separator } from "@exec0/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@exec0/ui/dropdown-menu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,6 +8,15 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@exec0/ui/breadcrumb";
+import { Button } from "@exec0/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@exec0/ui/dropdown-menu";
+import { Separator } from "@exec0/ui/separator";
 import { Link } from "next-view-transitions";
 import {
   IconArrowDoorOut3FillDuo18,
@@ -26,7 +26,7 @@ import {
   IconOfficeFillDuo18,
   IconUserFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
-import type { auth } from "@exec0/auth";
+import ThemeToggleText from "@/components/mode-togle-text";
 import BreadcrumbNavigation from "./breadcrumb-navigation";
 import OrgSlugSync from "./org-slug-sync";
 

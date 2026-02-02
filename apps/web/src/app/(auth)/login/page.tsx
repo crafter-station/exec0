@@ -1,14 +1,14 @@
 "use client";
+import { authClient } from "@exec0/auth/client";
 import { GithubIcon, Google, Logo, VercelIcon } from "@exec0/ui/assets";
 import { Badge } from "@exec0/ui/badge";
 import { Button } from "@exec0/ui/button";
+import { Spinner } from "@exec0/ui/components/spinner";
 import { Link } from "next-view-transitions";
 import { useState } from "react";
-import Silk from "@/modules/auth/silk";
-import { authClient } from "@exec0/auth/client";
 import { toast } from "sonner";
-import { Spinner } from "@exec0/ui/components/spinner";
 import { getCachedOrgSlug } from "@/hooks/use-org-slug";
+import Silk from "@/modules/auth/silk";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

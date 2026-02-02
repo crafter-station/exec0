@@ -1,7 +1,7 @@
+import { createKeysInstance, createStorage } from "@exec0/keys";
 import { Hono } from "hono";
 import { describeRoute } from "hono-openapi";
 import { Resource } from "sst";
-import { createKeysInstance, createStorage } from "@exec0/keys";
 
 const storage = createStorage(Resource.ApiKeys.name);
 const keys = createKeysInstance(storage);

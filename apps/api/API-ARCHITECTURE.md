@@ -21,15 +21,7 @@ Execute code in supported programming languages.
 {
   "language": "javascript" | "typescript" | "go",
   "code": "console.log('Hello, World!');",
-  "stdin": "optional input data",
-  "timeout": 30,
-  "memoryLimit": 256,
-  "files": [
-    {
-      "name": "utils.js", 
-      "content": "export const helper = () => 'help';"
-    }
-  ]
+  "resources": "lite" | "basic" | "medium" | "large" | "max"
 }
 ```
 
@@ -45,7 +37,7 @@ Execute code in supported programming languages.
     "compilationOutput": ""
   },
   "executionTime": 245,
-  "memoryUsed": 8192,
+  "resources": "basic",
   "createdAt": "2026-01-28T10:30:00Z",
   "language": "javascript"
 }
@@ -106,18 +98,27 @@ API keys support granular permissions similar to Resend:
 | TypeScript | 5.3.x        | Transpiled      | Yes         |
 | Go         | 1.21.x       | Compiled        | Yes         |
 
-## Resource Limits
+## Resource Tiers
+
+### Available Resource Tiers
+- **`lite`**: Basic execution with minimal resources (128MB RAM, 10s timeout)
+- **`basic`**: Standard execution for most use cases (512MB RAM, 30s timeout)
+- **`medium`**: Enhanced performance for complex operations (1GB RAM, 60s timeout)
+- **`large`**: High-performance execution (2GB RAM, 120s timeout)
+- **`max`**: Maximum resources for intensive workloads (4GB RAM, 300s timeout)
+
+### Usage Guidelines
+- **lite/basic**: Simple scripts, learning, quick tests
+- **medium**: Data processing, API calls, moderate computation
+- **large/max**: Machine learning, heavy computation, large datasets
 
 ### Execution Limits
-- **Timeout**: 5-300 seconds (configurable)
-- **Memory**: 64MB-2GB (configurable) 
-- **Output Size**: Max 64KB
-- **File Size**: Max 10MB per file
-- **Concurrency**: 1-20 simultaneous executions
+- **Output Size**: Max 64KB across all tiers
+- **Concurrency**: Varies by tier (lite: 5, basic: 10, medium: 15, large: 20, max: 25)
 
 ### Rate Limits
 - **Execution Rate**: 100 requests/minute
-- **Monthly Quota**: Configurable per organization
+- **Monthly Quota**: Configurable per organization and tier
 
 ## Authentication
 
@@ -219,7 +220,8 @@ curl -X POST https://exec0.run/api/v1/execute \
   -H "Content-Type: application/json" \
   -d '{
     "language": "javascript",
-    "code": "console.log(\"Hello, World!\");"
+    "code": "console.log(\"Hello, World!\");",
+    "resources": "basic"
   }'
 ```
 
@@ -233,7 +235,8 @@ const response = await fetch('https://exec0.run/api/v1/execute', {
   },
   body: JSON.stringify({
     language: 'javascript',
-    code: 'console.log("Hello, World!");'
+    code: 'console.log("Hello, World!");',
+    resources: 'basic'
   })
 });
 
@@ -249,7 +252,8 @@ response = requests.post(
     headers={'Authorization': 'Bearer exec0_abc123'},
     json={
         'language': 'javascript',
-        'code': 'console.log("Hello, World!");'
+        'code': 'console.log("Hello, World!");',
+        'resources': 'basic'
     }
 )
 

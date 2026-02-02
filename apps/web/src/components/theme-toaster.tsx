@@ -1,14 +1,13 @@
 "use client";
-import { useTheme } from "next-themes";
-
-import { Toaster as SonnerToaster, type ToasterProps } from "sonner";
-import {
-  IconTriangleWarningFillDuo18,
-  IconTasks2FillDuo18,
-  IconCircleInfoFillDuo18,
-  IconBugFillDuo18,
-} from "nucleo-ui-essential-fill-duo-18";
 import { Spinner } from "@exec0/ui/spinner";
+import { useTheme } from "next-themes";
+import {
+  IconBugFillDuo18,
+  IconCircleInfoFillDuo18,
+  IconTasks2FillDuo18,
+  IconTriangleWarningFillDuo18,
+} from "nucleo-ui-essential-fill-duo-18";
+import { Toaster as SonnerToaster, type ToasterProps } from "sonner";
 export function Toaster() {
   const { resolvedTheme } = useTheme();
 

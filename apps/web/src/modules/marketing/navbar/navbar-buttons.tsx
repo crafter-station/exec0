@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@exec0/auth/client";
+import { GithubIcon } from "@exec0/ui/assets";
 import { Avatar, AvatarFallback, AvatarImage } from "@exec0/ui/avatar";
 import { Button } from "@exec0/ui/button";
 import {
@@ -18,10 +19,9 @@ import {
   IconOfficeFillDuo18,
   IconUserFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
+import ModeToggle from "@/components/mode-toggle";
 import ThemeToggleText from "@/components/mode-togle-text";
 import { getCachedOrgSlug } from "@/hooks/use-org-slug";
-import { GithubIcon } from "@exec0/ui/assets";
-import ModeToggle from "@/components/mode-toggle";
 
 export function NavbarButtons() {
   const { data: session } = authClient.useSession();

@@ -1,4 +1,3 @@
-import { Badge } from "@exec0/ui/badge";
 import {
   Empty,
   EmptyContent,

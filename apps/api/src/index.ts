@@ -3,8 +3,8 @@ import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 import { logger } from "hono/logger";
 import { openAPIRouteHandler } from "hono-openapi";
-import { routes } from "@/routes";
 import { Resource } from "sst";
+import { routes } from "@/routes";
 
 const app = new Hono().basePath("/api");
 

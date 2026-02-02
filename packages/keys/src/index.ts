@@ -1,5 +1,5 @@
-import { createKeys as createKeysLib } from "keypal";
 import type { Storage } from "keypal";
+import { createKeys as createKeysLib } from "keypal";
 import { createStorage } from "./storage";
 
 export { ApiKeyErrorCode } from "keypal";

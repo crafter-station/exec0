@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { authMiddleware } from "@/middleware";
+import { runGoRouter } from "./go";
 import { runJavascriptRouter } from "./javascript";
 import { runTypescriptRouter } from "./typescript";
-import { runGoRouter } from "./go";
 
 const app = new Hono();
 

@@ -1,10 +1,7 @@
 import { Card } from "@exec0/ui/card";
 import { Link } from "next-view-transitions";
 import {
-  IconChevronExpandYFillDuo18,
   IconGamingButtonsFillDuo18,
-  IconMoneyBillCoinFillDuo18,
-  IconOfficeFillDuo18,
   IconVault3FillDuo18,
   IconWindowChartLineFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
