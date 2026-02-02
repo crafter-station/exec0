@@ -140,7 +140,7 @@ export const runJavascript = runJavascriptBasic;
 // export const runGo = runGoBasic; // Comentado: Bug con Go
 
 export const api = new sst.aws.Function("Api", {
-  handler: "apps/api/src/index.handler",
+  handler: "apps/api/src/app.handler",
   memory: "256 MB",
   runtime: "nodejs22.x",
   architecture: "arm64",

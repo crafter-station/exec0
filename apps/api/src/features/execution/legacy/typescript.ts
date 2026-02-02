@@ -1,7 +1,7 @@
 import { InvokeCommand, LambdaClient } from "@aws-sdk/client-lambda";
 import { Hono } from "hono";
 import { describeRoute, validator as zValidator } from "hono-openapi";
-import { runRequestSchema } from "@/schemas";
+import { runRequestSchema } from "../schemas";
 
 const lambda = new LambdaClient();
 const app = new Hono();
@@ -9,8 +9,8 @@ const app = new Hono();
 app.post(
   "/",
   describeRoute({
-    operationId: "runJavascript",
-    description: "Run Javascript code",
+    operationId: "runTypescript",
+    description: "Run Typescript code",
     security: [{ ApiKeyAuth: [] }],
   }),
   zValidator("json", runRequestSchema),
@@ -20,7 +20,7 @@ app.post(
     const startTime = Date.now();
     const response = await lambda.send(
       new InvokeCommand({
-        FunctionName: process.env.JAVASCRIPT_ARN,
+        FunctionName: process.env.TYPESCRIPT_ARN,
         InvocationType: "RequestResponse",
         Payload: JSON.stringify({ code: body.code }),
       }),
@@ -38,4 +38,4 @@ app.post(
   },
 );
 
-export { app as runJavascriptRouter };
+export { app as runTypescriptRouter };

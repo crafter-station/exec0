@@ -1,6 +1,6 @@
 import { InvokeCommand, LambdaClient } from "@aws-sdk/client-lambda";
-import { getLambdaArn } from "@/lib/config";
-import type { ExecuteRequest, ExecutionResult } from "@/schemas";
+import { getLambdaArn } from "../../core/config";
+import type { ExecuteRequest, ExecutionResult } from "./schemas";
 
 const lambda = new LambdaClient();
 
@@ -10,7 +10,9 @@ const lambda = new LambdaClient();
  * @param payload - The execution request containing code, language, and resources
  * @returns The execution result with output, errors, and metadata
  */
-export const executeLambda = async (payload: ExecuteRequest): Promise<ExecutionResult> => {
+export const executeLambda = async (
+  payload: ExecuteRequest,
+): Promise<ExecutionResult> => {
   const startTime = Date.now();
 
   // Invoke the Lambda function based on language and resources

@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { describeRoute, validator as zValidator } from "hono-openapi";
-import { executeLambda } from "@/lib/lambda-executor";
-import { authMiddleware } from "@/middleware";
-import { executeRequestSchema } from "@/schemas";
+import { authMiddleware } from "../../core/middleware";
+import { executeRequestSchema } from "./schemas";
+import { executeLambda } from "./service";
 
 const app = new Hono();
 

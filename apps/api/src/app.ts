@@ -4,7 +4,7 @@ import { handle } from "hono/aws-lambda";
 import { logger } from "hono/logger";
 import { openAPIRouteHandler } from "hono-openapi";
 import { Resource } from "sst";
-import { routes } from "@/routes";
+import apiRouter from "./api";
 
 const app = new Hono().basePath("/api");
 
@@ -14,8 +14,8 @@ app.get("/", (c) => {
   return c.text("Welcome to Exec0!!");
 });
 
-// Create API key endpoint
-app.route("/v1", routes);
+// Mount API routes
+app.route("/", apiRouter);
 
 app.get(
   "/v1/openapi.json",

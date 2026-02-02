@@ -1,5 +1,8 @@
 import { z } from "zod";
-import type { Language, Resources } from "@/schemas";
+import type { Language, Resources } from "../types";
+
+// También reexportamos los tipos para conveniencia
+export type { Language, Resources } from "../types";
 
 const envSchema = z.object({
   // JavaScript ARNs por tier
@@ -8,14 +11,14 @@ const envSchema = z.object({
   JAVASCRIPT_MEDIUM_ARN: z.string().min(1, "JAVASCRIPT_MEDIUM_ARN is required"),
   JAVASCRIPT_LARGE_ARN: z.string().min(1, "JAVASCRIPT_LARGE_ARN is required"),
   JAVASCRIPT_MAX_ARN: z.string().min(1, "JAVASCRIPT_MAX_ARN is required"),
-  
+
   // TypeScript ARNs por tier
   TYPESCRIPT_LITE_ARN: z.string().min(1, "TYPESCRIPT_LITE_ARN is required"),
   TYPESCRIPT_BASIC_ARN: z.string().min(1, "TYPESCRIPT_BASIC_ARN is required"),
   TYPESCRIPT_MEDIUM_ARN: z.string().min(1, "TYPESCRIPT_MEDIUM_ARN is required"),
   TYPESCRIPT_LARGE_ARN: z.string().min(1, "TYPESCRIPT_LARGE_ARN is required"),
   TYPESCRIPT_MAX_ARN: z.string().min(1, "TYPESCRIPT_MAX_ARN is required"),
-  
+
   // Go ARNs por tier
   GO_LITE_ARN: z.string().min(1, "GO_LITE_ARN is required"),
   GO_BASIC_ARN: z.string().min(1, "GO_BASIC_ARN is required"),
@@ -51,7 +54,10 @@ const languageResourceArns: Record<Language, Record<Resources, string>> = {
   },
 };
 
-export const getLambdaArn = (language: Language, resources: Resources): string => {
+export const getLambdaArn = (
+  language: Language,
+  resources: Resources,
+): string => {
   return languageResourceArns[language][resources];
 };
 
