@@ -1,3 +1,4 @@
+import RevenueChart from "@/modules/dashboard/chart";
 import { Card } from "@exec0/ui/card";
 import { Link } from "next-view-transitions";
 import {
