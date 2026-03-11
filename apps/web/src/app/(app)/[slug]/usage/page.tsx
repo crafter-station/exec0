@@ -1,14 +1,21 @@
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@exec0/ui/empty";
 import type { UsageRecord } from "@exec0/usage";
+import { IconWindowChartLineFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import {
   aggregateByDay,
-  aggregateByLanguage,
   getTimePeriod,
   getUsageByOwner,
   usageTable,
 } from "@/lib/usage";
 import { DatePeriodSelector } from "@/modules/usage/date-period-selector";
+import { ExecutionLog } from "@/modules/usage/execution-log";
 import { UsageChart } from "@/modules/usage/usage-chart";
-import { UsageStats } from "@/modules/usage/usage-stats";
 
 type Period = "7d" | "30d" | "month";
 
@@ -28,22 +35,6 @@ function buildChartData(records: UsageRecord[]) {
       executions: count,
     }))
     .sort((a, b) => a.date.getTime() - b.date.getTime());
-}
-
-function calculateStats(records: UsageRecord[], period: Period) {
-  const total = records.length;
-  const days = period === "7d" ? 7 : 30;
-  const avgDaily = days > 0 ? Math.round(total / days) : 0;
-
-  const byDay = aggregateByDay(records);
-  const dayValues = Object.values(byDay) as number[];
-  const peakDay = dayValues.length > 0 ? Math.max(...dayValues) : 0;
-
-  const byLanguage = aggregateByLanguage(records);
-  const langEntries = Object.entries(byLanguage) as [string, number][];
-  const topLanguage = langEntries.sort(([, a], [, b]) => b - a)[0]?.[0] ?? null;
-
-  return { total, avgDaily, peakDay, topLanguage };
 }
 
 export default async function UsagePage({
@@ -66,11 +57,30 @@ export default async function UsagePage({
 
   const records = await getUsageByOwner(usageTable, slug, timeRange);
 
+  if (records.length === 0) {
+    return (
+
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <IconWindowChartLineFillDuo18 className="size-6" />
+            </EmptyMedia>
+            <EmptyTitle>No executions yet</EmptyTitle>
+            <EmptyDescription>
+              Usage data will appear here once you start making API calls with
+              your keys.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+
+    );
+  }
+
   const chartData = buildChartData(records);
-  const stats = calculateStats(records, period);
+  const sortedRecords = [...records].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
@@ -82,26 +92,11 @@ export default async function UsagePage({
         <DatePeriodSelector currentPeriod={period} />
       </div>
 
-      {/* Stats */}
-      <UsageStats
-        totalExecutions={stats.total}
-        averageDaily={stats.avgDaily}
-        peakDay={stats.peakDay}
-        topLanguage={stats.topLanguage}
-      />
-
       {/* Chart */}
-      <div className="space-y-2">
-        <div className="px-1">
-          <h2 className="text-sm font-medium text-foreground">
-            Executions over time
-          </h2>
-          <p className="text-xs text-muted-foreground">
-            Daily execution count for the selected period
-          </p>
-        </div>
-        <UsageChart data={chartData} />
-      </div>
+      <UsageChart data={chartData} />
+
+      {/* Execution Log */}
+      <ExecutionLog records={sortedRecords} />
     </div>
   );
 }

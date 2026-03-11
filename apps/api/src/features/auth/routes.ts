@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { describeRoute } from "hono-openapi";
+import { describeRoute, validator as zValidator } from "hono-openapi";
 import { authMiddleware } from "../../core/middleware";
 import {
   createKeySchema,
@@ -22,37 +22,39 @@ app.post(
     description: "Create a new API key for the authenticated owner",
     security: [{ ApiKeyAuth: [] }],
   }),
+  zValidator("json", createKeySchema),
   async (c) => {
-    const apiKey = c.get("apiKey" as never) as {
-      id: string;
-      metadata: { ownerId: string };
-    };
+    try {
+      const apiKey = c.get("apiKey" as never) as {
+        id: string;
+        metadata: { ownerId: string };
+      };
 
-    const body = await c.req.json();
-    const parsed = createKeySchema.safeParse(body);
+      const { name, description, scopes, expiresAt } = c.req.valid("json");
 
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.issues[0]?.message }, 400);
+      const { key, record } = await keys.create({
+        ownerId: apiKey.metadata.ownerId,
+        name,
+        scopes,
+        ...(description && { description }),
+        ...(expiresAt && { expiresAt }),
+      });
+
+      return c.json({
+        key,
+        keyId: record.id,
+        name,
+        scopes,
+        expiresAt: expiresAt ?? null,
+        createdAt: record.metadata.createdAt,
+      });
+    } catch (err) {
+      console.error("POST /keys error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
     }
-
-    const { name, description, scopes, expiresAt } = parsed.data;
-
-    const { key, record } = await keys.create({
-      ownerId: apiKey.metadata.ownerId,
-      name,
-      description,
-      scopes,
-      expiresAt: expiresAt ?? null,
-    });
-
-    return c.json({
-      key,
-      keyId: record.id,
-      name,
-      scopes,
-      expiresAt: expiresAt ?? null,
-      createdAt: record.metadata.createdAt,
-    });
   },
 );
 
@@ -65,26 +67,34 @@ app.get(
     security: [{ ApiKeyAuth: [] }],
   }),
   async (c) => {
-    const apiKey = c.get("apiKey" as never) as {
-      id: string;
-      metadata: { ownerId: string };
-    };
+    try {
+      const apiKey = c.get("apiKey" as never) as {
+        id: string;
+        metadata: { ownerId: string };
+      };
 
-    const keysList = await keys.list(apiKey.metadata.ownerId);
+      const keysList = await keys.list(apiKey.metadata.ownerId);
 
-    const data = keysList.map((record) => ({
-      id: record.id,
-      name: record.metadata.name,
-      description: record.metadata.description,
-      scopes: record.metadata.scopes || [],
-      createdAt: record.metadata.createdAt,
-      lastUsedAt: record.metadata.lastUsedAt,
-      expiresAt: record.metadata.expiresAt,
-      enabled: record.metadata.enabled !== false,
-      revokedAt: record.metadata.revokedAt,
-    }));
+      const data = keysList.map((record) => ({
+        id: record.id,
+        name: record.metadata.name,
+        description: record.metadata.description,
+        scopes: record.metadata.scopes || [],
+        createdAt: record.metadata.createdAt,
+        lastUsedAt: record.metadata.lastUsedAt,
+        expiresAt: record.metadata.expiresAt,
+        enabled: record.metadata.enabled !== false,
+        revokedAt: record.metadata.revokedAt,
+      }));
 
-    return c.json({ total: data.length, data });
+      return c.json({ total: data.length, data });
+    } catch (err) {
+      console.error("GET /keys error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
+    }
   },
 );
 
@@ -96,19 +106,19 @@ app.post(
     description: "Revoke an API key by ID",
     security: [{ ApiKeyAuth: [] }],
   }),
+  zValidator("json", revokeKeySchema),
   async (c) => {
-    const body = await c.req.json();
-    const parsed = revokeKeySchema.safeParse(body);
-
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.issues[0]?.message }, 400);
+    try {
+      const { keyId } = c.req.valid("json");
+      await keys.revoke(keyId);
+      return c.json({ success: true });
+    } catch (err) {
+      console.error("POST /keys/revoke error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
     }
-
-    await keys.revoke(parsed.data.keyId, {
-      metadata: { via: "api" },
-    });
-
-    return c.json({ success: true });
   },
 );
 
@@ -120,17 +130,19 @@ app.post(
     description: "Enable a disabled API key",
     security: [{ ApiKeyAuth: [] }],
   }),
+  zValidator("json", toggleKeySchema),
   async (c) => {
-    const body = await c.req.json();
-    const parsed = toggleKeySchema.safeParse(body);
-
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.issues[0]?.message }, 400);
+    try {
+      const { keyId } = c.req.valid("json");
+      await keys.enable(keyId);
+      return c.json({ success: true });
+    } catch (err) {
+      console.error("POST /keys/enable error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
     }
-
-    await keys.enable(parsed.data.keyId);
-
-    return c.json({ success: true });
   },
 );
 
@@ -142,17 +154,19 @@ app.post(
     description: "Disable an active API key",
     security: [{ ApiKeyAuth: [] }],
   }),
+  zValidator("json", toggleKeySchema),
   async (c) => {
-    const body = await c.req.json();
-    const parsed = toggleKeySchema.safeParse(body);
-
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.issues[0]?.message }, 400);
+    try {
+      const { keyId } = c.req.valid("json");
+      await keys.disable(keyId);
+      return c.json({ success: true });
+    } catch (err) {
+      console.error("POST /keys/disable error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
     }
-
-    await keys.disable(parsed.data.keyId);
-
-    return c.json({ success: true });
   },
 );
 
@@ -164,23 +178,25 @@ app.post(
     description: "Rotate an API key, generating a new key value",
     security: [{ ApiKeyAuth: [] }],
   }),
+  zValidator("json", rotateKeySchema),
   async (c) => {
-    const body = await c.req.json();
-    const parsed = rotateKeySchema.safeParse(body);
+    try {
+      const { keyId, name, scopes } = c.req.valid("json");
+      const updates = { ...(name && { name }), ...(scopes && { scopes }) };
 
-    if (!parsed.success) {
-      return c.json({ error: parsed.error.issues[0]?.message }, 400);
+      const { key } = await keys.rotate(
+        keyId,
+        Object.keys(updates).length > 0 ? updates : undefined,
+      );
+
+      return c.json({ success: true, key });
+    } catch (err) {
+      console.error("POST /keys/rotate error:", err);
+      return c.json(
+        { error: err instanceof Error ? err.message : "Internal server error" },
+        500,
+      );
     }
-
-    const { keyId, name, scopes } = parsed.data;
-    const updates = { ...(name && { name }), ...(scopes && { scopes }) };
-
-    const { key } = await keys.rotate(
-      keyId,
-      Object.keys(updates).length > 0 ? updates : undefined,
-    );
-
-    return c.json({ success: true, key });
   },
 );
 

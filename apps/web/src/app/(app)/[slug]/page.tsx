@@ -1,5 +1,13 @@
 import { Badge } from "@exec0/ui/badge";
 import { Card } from "@exec0/ui/card";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@exec0/ui/empty";
 import { Link } from "next-view-transitions";
 import {
   IconGamingButtonsFillDuo18,
@@ -7,6 +15,7 @@ import {
   IconWindowChartLineFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
 import keys from "@/lib/keys";
+import { CreateApiKeyDialog } from "@/modules/keys/create-keys";
 
 export default async function DashboardPage({
   params,
@@ -72,19 +81,20 @@ export default async function DashboardPage({
         </div>
 
         {recentKeys.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-8 text-center">
-            <IconVault3FillDuo18 className="size-8 text-muted-foreground mb-3" />
-            <p className="text-sm text-muted-foreground">
-              No API keys yet.{" "}
-              <Link
-                href={`/${slug}/keys`}
-                className="text-foreground underline underline-offset-4 hover:text-primary"
-              >
-                Create one
-              </Link>{" "}
-              to get started.
-            </p>
-          </div>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <IconVault3FillDuo18 className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle>No API Keys</EmptyTitle>
+              <EmptyDescription>
+                Create your first API key to start executing code.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <CreateApiKeyDialog slug={slug} />
+            </EmptyContent>
+          </Empty>
         ) : (
           <div className="space-y-1">
             {recentKeys.map((apiKey) => {
@@ -132,7 +142,7 @@ export default async function DashboardPage({
                             day: "numeric",
                           },
                         )
-                      : "—"}
+                      : "\u2014"}
                   </span>
                 </div>
               );

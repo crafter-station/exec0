@@ -19,21 +19,6 @@ interface UsageChartProps {
 }
 
 export function UsageChart({ data }: UsageChartProps) {
-  if (data.length === 0) {
-    return (
-      <Card className="w-full h-64 flex items-center justify-center border-border/50">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            No execution data yet
-          </p>
-          <p className="text-xs text-muted-foreground/60 max-w-xs">
-            Usage data will appear here once API calls are made with your keys
-          </p>
-        </div>
-      </Card>
-    );
-  }
-
   return (
     <Card className="w-full border-border/50">
       <div className="w-full">
