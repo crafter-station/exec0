@@ -1,6 +1,6 @@
 import { InvokeCommand, LambdaClient } from "@aws-sdk/client-lambda";
+import type { ExecuteRequest, ExecutionResult } from "@exec0/schemas";
 import { getLambdaArn } from "../../core/config";
-import type { ExecuteRequest, ExecutionResult } from "./schemas";
 
 const lambda = new LambdaClient();
 

@@ -47,7 +47,7 @@ export function NavbarButtons() {
   return (
     <div className="flex items-center gap-1">
       <Button variant="outline" size="sm" asChild>
-        <Link href={slug ? `/${slug}` : "/teams"}>
+        <Link prefetch={true} href={slug ? `/${slug}` : "/teams"}>
           <IconOfficeFillDuo18 />
           Dashboard
         </Link>

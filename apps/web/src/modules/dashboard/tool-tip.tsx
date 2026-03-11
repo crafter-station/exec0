@@ -2,20 +2,15 @@
 
 import { ChartTooltip } from "@/components/charts";
 
-export function AreaTooltipDemo() {
+export function UsageChartTooltip() {
   return (
     <ChartTooltip
       className="bg-card"
       rows={(point) => [
         {
           color: "var(--chart-line-primary)",
-          label: "Lite",
-          value: `$${(point.revenue as number)?.toLocaleString() ?? 0}`,
-        },
-        {
-          color: "var(--chart-line-secondary)",
-          label: "Basic",
-          value: `$${(point.costs as number)?.toLocaleString() ?? 0}`,
+          label: "Executions",
+          value: `${(point.executions as number)?.toLocaleString() ?? 0}`,
         },
       ]}
     />

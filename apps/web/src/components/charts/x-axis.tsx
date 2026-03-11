@@ -124,18 +124,18 @@ export function XAxis({ numTicks = 5, tickerHalfWidth = 50 }: XAxisProps) {
 
   return createPortal(
     <div className="pointer-events-none absolute inset-0">
-      {labelsToShow.map((item) => (
+      {labelsToShow.map((item, index) => (
         <XAxisLabel
           crosshairX={crosshairX}
           isHovering={isHovering}
-          key={`${item.label}-${item.x}`}
+          key={`${index}-${item.date.getTime()}`}
           label={item.label}
           tickerHalfWidth={tickerHalfWidth}
           x={item.x}
         />
       ))}
     </div>,
-    container
+    container,
   );
 }
 

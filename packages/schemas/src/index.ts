@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-export const runRequestSchema = z.object({
-  code: z.string().min(1, "Code is required"),
-});
-
+// Base schemas
 export const languageSchema = z.enum(["javascript", "typescript", "go"]);
 export const resourcesSchema = z.enum([
   "lite",
@@ -12,6 +9,11 @@ export const resourcesSchema = z.enum([
   "large",
   "max",
 ]);
+
+// Execution schemas
+export const runRequestSchema = z.object({
+  code: z.string().min(1, "Code is required"),
+});
 
 export const executeRequestSchema = z.object({
   language: languageSchema,
@@ -36,7 +38,9 @@ export const executionResultSchema = z.object({
   language: languageSchema,
 });
 
+// Type exports
 export type Language = z.infer<typeof languageSchema>;
 export type Resources = z.infer<typeof resourcesSchema>;
+export type RunRequest = z.infer<typeof runRequestSchema>;
 export type ExecuteRequest = z.infer<typeof executeRequestSchema>;
 export type ExecutionResult = z.infer<typeof executionResultSchema>;

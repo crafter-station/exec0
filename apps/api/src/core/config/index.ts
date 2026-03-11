@@ -1,25 +1,22 @@
+import type { Language, Resources } from "@exec0/schemas";
 import { z } from "zod";
-import type { Language, Resources } from "../types";
-
-// También reexportamos los tipos para conveniencia
-export type { Language, Resources } from "../types";
 
 const envSchema = z.object({
-  // JavaScript ARNs por tier
+  // JavaScript ARNs
   JAVASCRIPT_LITE_ARN: z.string().min(1, "JAVASCRIPT_LITE_ARN is required"),
   JAVASCRIPT_BASIC_ARN: z.string().min(1, "JAVASCRIPT_BASIC_ARN is required"),
   JAVASCRIPT_MEDIUM_ARN: z.string().min(1, "JAVASCRIPT_MEDIUM_ARN is required"),
   JAVASCRIPT_LARGE_ARN: z.string().min(1, "JAVASCRIPT_LARGE_ARN is required"),
   JAVASCRIPT_MAX_ARN: z.string().min(1, "JAVASCRIPT_MAX_ARN is required"),
 
-  // TypeScript ARNs por tier
+  // TypeScript ARNs
   TYPESCRIPT_LITE_ARN: z.string().min(1, "TYPESCRIPT_LITE_ARN is required"),
   TYPESCRIPT_BASIC_ARN: z.string().min(1, "TYPESCRIPT_BASIC_ARN is required"),
   TYPESCRIPT_MEDIUM_ARN: z.string().min(1, "TYPESCRIPT_MEDIUM_ARN is required"),
   TYPESCRIPT_LARGE_ARN: z.string().min(1, "TYPESCRIPT_LARGE_ARN is required"),
   TYPESCRIPT_MAX_ARN: z.string().min(1, "TYPESCRIPT_MAX_ARN is required"),
 
-  // Go ARNs por tier
+  // Go ARNs
   GO_LITE_ARN: z.string().min(1, "GO_LITE_ARN is required"),
   GO_BASIC_ARN: z.string().min(1, "GO_BASIC_ARN is required"),
   GO_MEDIUM_ARN: z.string().min(1, "GO_MEDIUM_ARN is required"),
@@ -29,7 +26,7 @@ const envSchema = z.object({
 
 const env = envSchema.parse(process.env);
 
-// Mapeo de language + resources a ARN
+// Mapping language + resources to ARN
 const languageResourceArns: Record<Language, Record<Resources, string>> = {
   javascript: {
     lite: env.JAVASCRIPT_LITE_ARN,

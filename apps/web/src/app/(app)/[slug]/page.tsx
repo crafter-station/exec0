@@ -1,4 +1,4 @@
-import RevenueChart from "@/modules/dashboard/chart";
+import { Badge } from "@exec0/ui/badge";
 import { Card } from "@exec0/ui/card";
 import { Link } from "next-view-transitions";
 import {
@@ -6,6 +6,7 @@ import {
   IconVault3FillDuo18,
   IconWindowChartLineFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
+import keys from "@/lib/keys";
 
 export default async function DashboardPage({
   params,
@@ -13,23 +14,27 @@ export default async function DashboardPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const recentProjects = [
-    { name: "finwise", path: "/inspector" },
-    { name: "raggy", path: "/raggy" },
-    { name: "splashPage", path: "/splashPage" },
-    {
-      name: "inspector",
-      path: "/inspector",
-    },
-    { name: "langchain", path: "/bizchat" },
-  ];
+  const allKeys = await keys.list(slug);
+
+  // Sort by createdAt desc and take the 5 most recent
+  const recentKeys = allKeys
+    .sort((a, b) => {
+      const dateA = a.metadata.createdAt
+        ? new Date(a.metadata.createdAt).getTime()
+        : 0;
+      const dateB = b.metadata.createdAt
+        ? new Date(b.metadata.createdAt).getTime()
+        : 0;
+      return dateB - dateA;
+    })
+    .slice(0, 5);
 
   return (
     <div>
       {/* Action Cards */}
       <div className="mb-12 grid grid-cols-3 gap-4">
-        <Link href={`/${slug}/keys`}>
-          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100">
+        <Link prefetch={true} href={`/${slug}/keys`}>
+          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100 cursor-pointer">
             <IconVault3FillDuo18 className="size-6 key-breadcrumb-icon" />
             <span className="text-sm font-semibold font-mono key-breadcrumb-title">
               Keys
@@ -37,43 +42,103 @@ export default async function DashboardPage({
           </Card>
         </Link>
         <Link href={`/${slug}/usage`}>
-          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100">
-            <IconWindowChartLineFillDuo18 className="size-6" />
-            <span className="text-sm font-semibold font-mono">
-              Current Usage
+          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100 cursor-pointer">
+            <IconWindowChartLineFillDuo18 className="size-6 chart-breadcrumb-icon" />
+            <span className="text-sm font-semibold font-mono chart-breadcrumb-title">
+              Usage
             </span>
           </Card>
         </Link>
         <Link href={`/${slug}/playground`}>
-          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100">
+          <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100 cursor-pointer">
             <IconGamingButtonsFillDuo18 className="size-6" />
             <span className="text-sm font-semibold font-mono">Playground</span>
           </Card>
         </Link>
       </div>
 
-      {/* Recent Projects */}
+      {/* Recent Keys */}
       <div>
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-medium text-foreground">Recent keys</h2>
-          <div className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            View all (12)
-          </div>
+          {allKeys.length > 0 ? (
+            <Link
+              href={`/${slug}/keys`}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              View all ({allKeys.length})
+            </Link>
+          ) : null}
         </div>
 
-        <div className="space-y-1">
-          {recentProjects.map((project, index) => (
-            <div
-              key={index}
-              className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-left hover:bg-secondary"
-            >
-              <span className="text-sm text-foreground">{project.name}</span>
-              <span className="text-xs text-muted-foreground">
-                {project.path}
-              </span>
-            </div>
-          ))}
-        </div>
+        {recentKeys.length === 0 ? (
+          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-8 text-center">
+            <IconVault3FillDuo18 className="size-8 text-muted-foreground mb-3" />
+            <p className="text-sm text-muted-foreground">
+              No API keys yet.{" "}
+              <Link
+                href={`/${slug}/keys`}
+                className="text-foreground underline underline-offset-4 hover:text-primary"
+              >
+                Create one
+              </Link>{" "}
+              to get started.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-1">
+            {recentKeys.map((apiKey) => {
+              const isRevoked = !!apiKey.metadata.revokedAt;
+              const isDisabled = apiKey.metadata.enabled === false;
+              const isExpired =
+                apiKey.metadata.expiresAt &&
+                new Date(apiKey.metadata.expiresAt) < new Date();
+              return (
+                <div
+                  key={apiKey.id}
+                  className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-left hover:bg-secondary"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-foreground">
+                      {apiKey.metadata.name || "Unnamed Key"}
+                    </span>
+                    <Badge
+                      variant={
+                        isRevoked
+                          ? "destructive"
+                          : isExpired
+                            ? "outline"
+                            : isDisabled
+                              ? "secondary"
+                              : "default"
+                      }
+                      className="text-[10px] px-1.5 py-0"
+                    >
+                      {isRevoked
+                        ? "Revoked"
+                        : isExpired
+                          ? "Expired"
+                          : isDisabled
+                            ? "Disabled"
+                            : "Active"}
+                    </Badge>
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    {apiKey.metadata.createdAt
+                      ? new Date(apiKey.metadata.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )
+                      : "—"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

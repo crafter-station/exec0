@@ -1,0 +1,21 @@
+{
+  "name": "@exec0/usage",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.981.0",
+    "@aws-sdk/util-dynamodb": "^3.981.0",
+    "@exec0/db": "*",
+    "@exec0/schemas": "*",
+    "zod": "^4.3.6"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

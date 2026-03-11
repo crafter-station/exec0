@@ -137,7 +137,7 @@ export const runGoMax = new sst.aws.Function("RunGoMax", {
 // Legacy exports for backward compatibility (maps to basic tier)
 export const runTypescript = runTypescriptBasic;
 export const runJavascript = runJavascriptBasic;
-// export const runGo = runGoBasic; // Comentado: Bug con Go
+export const runGo = runGoBasic;
 
 export const api = new sst.aws.Function("Api", {
   handler: "apps/api/src/app.handler",

@@ -139,13 +139,13 @@ function ChartInner({
       const value = d[xDataKey];
       return value instanceof Date ? value : new Date(value as string | number);
     },
-    [xDataKey]
+    [xDataKey],
   );
 
   // Create bisector for finding nearest data point
   const bisectDate = useMemo(
     () => bisector<Record<string, unknown>, Date>((d) => xAccessor(d)).left,
-    [xAccessor]
+    [xAccessor],
   );
 
   // X scale (time) - use exact data domain for tight fit
@@ -200,9 +200,9 @@ function ChartInner({
         xAccessor(d).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
-        })
+        }),
       ),
-    [data, xAccessor]
+    [data, xAccessor],
   );
 
   // Animation timing
@@ -259,7 +259,7 @@ function ChartInner({
         yPositions,
       });
     },
-    [xScale, yScale, data, lines, margin.left, xAccessor, bisectDate]
+    [xScale, yScale, data, lines, margin.left, xAccessor, bisectDate],
   );
 
   const handleMouseLeave = useCallback(() => {

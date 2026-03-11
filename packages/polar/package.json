@@ -1,0 +1,15 @@
+{
+  "name": "polar",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@polar-sh/ingestion": "^0.4.2",
+    "@polar-sh/sdk": "^0.42.5"
+  }
+}

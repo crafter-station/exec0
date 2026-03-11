@@ -21,15 +21,15 @@ export const usageTable = new sst.aws.Dynamo("Usage", {
   fields: {
     ownerId: "string",
     timestamp: "number",
-    keyId: "string",
+    apiKeyId: "string",
   },
   primaryIndex: {
     hashKey: "ownerId",
     rangeKey: "timestamp",
   },
   globalIndexes: {
-    KeyIdIndex: {
-      hashKey: "keyId",
+    ApiKeyIdIndex: {
+      hashKey: "apiKeyId",
       rangeKey: "timestamp",
     },
   },

@@ -1,0 +1,17 @@
+{
+  "name": "@exec0/schemas",
+  "module": "src/index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}

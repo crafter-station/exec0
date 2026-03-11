@@ -105,9 +105,7 @@ export function TooltipContent({ title, rows, children }: TooltipContentProps) {
                   className="h-2.5 w-2.5 shrink-0 rounded-full"
                   style={{ backgroundColor: row.color }}
                 />
-                <span className="text-sm text-primary">
-                  {row.label}
-                </span>
+                <span className="text-sm text-primary">{row.label}</span>
               </div>
               <span className="font-medium text-sm text-muted-foreground tabular-nums">
                 {typeof row.value === "number"

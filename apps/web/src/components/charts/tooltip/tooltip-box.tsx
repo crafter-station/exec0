@@ -2,8 +2,8 @@
 
 import { motion, useSpring } from "motion/react";
 import type { RefObject } from "react";
-import { cn } from "@/lib/utils";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 // Spring config for smooth tooltip movement
 const springConfig = { stiffness: 100, damping: 20 };
@@ -80,7 +80,7 @@ export function TooltipBox({
   // Vertical positioning with bounds clamping
   const targetY = Math.max(
     offset,
-    Math.min(y - tooltipHeight / 2, containerHeight - tooltipHeight - offset)
+    Math.min(y - tooltipHeight / 2, containerHeight - tooltipHeight - offset),
   );
 
   // Track flip state for animation
@@ -146,7 +146,7 @@ export function TooltipBox({
         {children}
       </motion.div>
     </motion.div>,
-    container
+    container,
   );
 }
 

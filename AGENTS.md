@@ -1,185 +1,229 @@
-# AGENTS.md - Development Guidelines for Exec0
-
-This guide is for agentic coding assistants working in the Exec0 repository.
+# AGENTS.md — Exec0 Monorepo
 
 ## Project Overview
 
-Exec0 is a monorepo containing:
-- **apps/web**: Next.js 16+ frontend (React 19, TypeScript)
-- **apps/api**: Hono-based Lambda API with OpenAPI docs
-- **apps/functions**: AWS Lambda functions (TypeScript/JavaScript)
-- **packages/**: Shared libraries (auth, database, keys, ui components)
+Fullstack platform for AI-agent code execution. Monorepo with:
+- **`apps/web`** — Next.js 16 (App Router) + React 19 + TailwindCSS v4
+- **`apps/api`** — Hono.js REST API deployed on AWS Lambda
+- **`apps/functions/`** — Per-language Lambda executors (JS, TS, Go)
+- **`packages/`** — Shared packages (auth, database, schemas, ui, keys, usage, polar)
+- **`infra/`** — SST v3 infrastructure as code (AWS Lambda, DynamoDB, API Gateway)
 
-## Build, Lint & Test Commands
+## Package Manager
 
-### Root-level Commands
+**Always use `bun`**. Never use `npm` or `yarn`.
+
 ```bash
-bun install                    # Install all dependencies (uses bun@1.3.4)
-bun run dev                    # Start dev servers (turbo dev)
-bun run format                 # Format all code with Biome
-bun run lint                   # Lint & fix with Biome
+bun install          # Install dependencies
+bun run <script>     # Run scripts
+bunx <package>       # Execute packages
 ```
 
-### Per-Package Commands
-- **Web app** (`apps/web`):
-  ```bash
-  cd apps/web && bun run dev   # Next.js dev server (port 3000)
-  bun run build                # Build Next.js
-  bun run lint                 # Check formatting
-  ```
+## Commands
 
-- **API** (`apps/api`):
-  ```bash
-  cd apps/api && bun run build # Build Lambda function with esbuild
-  bun run deploy               # Deploy to AWS Lambda (requires aws-cli)
-  ```
-
-- **Other packages**: Use `bun run build` if available, or workspaces inherit root commands
-
-**Note**: No dedicated test framework found; if tests are added, prefer Vitest over Jest.
-
-## Code Style & Formatting
-
-### Overview
-- **Formatter**: Biome 2.3.8 (organized imports, double quotes, 2-space indent)
-- **Linter**: Biome with recommended rules enabled
-- **TypeScript**: Strict mode enabled (`strict: true`)
-- **Module System**: ESNext with `moduleResolution: "bundler"`
-- **Target**: ESNext (latest features)
-
-### Imports
-1. **Auto-organized**: Biome's `organizeImports` is enabled (on save)
-2. **Grouping order**: Standard library → external deps → internal imports
-3. **Quote style**: Double quotes required (`"`)
-4. **Spacing**: 2 spaces (Biome enforces)
-5. **Aliases**: Use `@/` for app roots, workspace package names (e.g., `@exec0/ui`, `@exec0/auth`)
-
-Example import order:
-```typescript
-import type { ReactNode } from "react";
-import { useState } from "react";
-
-import { cn } from "@exec0/ui/lib/utils";
-import { Button } from "@exec0/ui/components/button";
-
-import { useAuth } from "@/lib/auth";
-import { Card } from "@/components/card";
+### Root (Turborepo)
+```bash
+bun run dev          # Start all apps in dev mode (turbo dev)
+bun run lint         # Lint + fix (biome check --fix)
+bun run format       # Format all files (biome format --write)
 ```
 
-### Formatting Rules
-- **Line length**: No explicit limit (Biome default)
-- **Indentation**: 2 spaces
-- **Semicolons**: Always required (Biome enforced)
-- **Trailing commas**: Allowed in multiline structures
-- **Trailing whitespace**: Removed automatically
+### Web App (`apps/web`)
+```bash
+bun run dev          # Next.js dev server
+bun run build        # Production build
+bun run lint         # biome check
+bun run format       # biome format --write
+```
 
-### TypeScript & Type Checking
+### API (`apps/api`)
+```bash
+bun run build        # esbuild bundle → dist/index.js
+bun run deploy       # build + zip + AWS Lambda update
+```
 
-**Compiler options** (from `tsconfig.json`):
-- `strict: true` - All strict checks enabled
-- `noUnusedLocals: true` - Unused variables cause errors
-- `noUnusedParameters: true` - Unused parameters cause errors
-- `noPropertyAccessFromIndexSignature: true` - Explicit typing required
-- `strictNullChecks: true` - Null/undefined checked strictly
-- `skipLibCheck: true` - Skip `.d.ts` validation
-- `noFallthroughCasesInSwitch: true` - Require break/return in switch
-- `noImplicitOverride: true` - Override keyword required in classes
-- `verbatimModuleSyntax: true` - Preserve import syntax as written
-- `allowImportingTsExtensions: true` - Allow .ts imports (bundler mode)
+### Database (`packages/database`)
+```bash
+bun run db:generate  # prisma generate
+bun run db:migrate   # prisma migrate dev --skip-generate
+bun run db:deploy    # prisma migrate deploy
+```
 
-**Guidelines**:
-- Always use explicit types (no implicit `any`)
-- Use `type` for type aliases, `interface` for object contracts
-- Prefer `readonly` for immutable data
-- Use `as const` for literal types
-- Type React components: `React.ComponentProps<T>`, `Readonly<{}>` for props
+### Auth
+```bash
+bun run auth:generate  # Regenerate Prisma schema from Better-Auth config
+```
 
-### Naming Conventions
-- **Files**: Use kebab-case for files (`button.tsx`, `use-auth.ts`), PascalCase for components
-- **Variables/Functions**: camelCase (`const userName = ...`, `function getUserById() {}`)
-- **Constants**: UPPER_SNAKE_CASE for true constants (`const MAX_RETRIES = 3`)
-- **Classes**: PascalCase
-- **Private fields**: Prefix with `_` (`_internalState`)
-- **React Hooks**: Prefix with `use` (`useAuth`, `useLocalStorage`)
+## Testing
 
-### Error Handling
-1. **Validation**: Use Zod for schema validation (already in project)
-2. **Type safety**: Leverage TypeScript strict mode to catch errors early
-3. **Try-catch**: Use sparingly; prefer explicit error types
-4. **HTTP errors**: Hono API uses proper status codes (400, 401, 500, etc.)
-5. **Logging**: Console methods or structured logging (follow existing patterns)
-6. **User feedback**: Use `sonner` toast notifications in UI (already imported)
+**No test suite exists.** No testing framework is configured. When adding tests, use Bun's built-in test runner:
+```bash
+bun test                        # Run all tests
+bun test path/to/file.test.ts   # Run a single test file
+bun test --watch                # Watch mode
+```
 
-Example error handling:
-```typescript
-import { z } from "zod";
+## Code Style — Biome
 
-const userSchema = z.object({
-  email: z.string().email(),
-  name: z.string().min(1),
-});
+Single tool for linting and formatting. Config in `biome.json` at root.
 
-try {
-  const data = userSchema.parse(input);
-} catch (error) {
-  if (error instanceof z.ZodError) {
-    console.error(error.errors);
-  }
+- **Indentation:** 2 spaces
+- **Quotes:** Double quotes (`"`) in JS/TS
+- **Import organizer:** Automatic (enabled via `assist.actions.source.organizeImports`)
+- **Rules:** `recommended` enabled
+
+Run before committing:
+```bash
+bun run lint    # from repo root
+```
+
+## TypeScript
+
+Strict mode. Key settings from root `tsconfig.json`:
+- `strict: true`, `strictNullChecks: true`
+- `noUnusedLocals: true`, `noUnusedParameters: true`
+- `noUncheckedIndexedAccess: true` — array/object access returns `T | undefined`
+- `noImplicitOverride: true`
+- `verbatimModuleSyntax: true` — use `import type` for type-only imports
+- `moduleResolution: "bundler"`
+
+Always use `import type` for type-only imports:
+```ts
+import type { ExecuteRequest } from "@exec0/schemas";
+```
+
+## Imports & Path Aliases
+
+| Alias | Resolves to | Used in |
+|-------|-------------|---------|
+| `@/*` | `./src/*` | `apps/web`, `apps/api` |
+| `@exec0/ui/*` | `packages/ui/src/*` | `apps/web` |
+| `@exec0/*` | workspace packages | anywhere |
+
+Rules:
+1. Use `@/` alias within the same app (never `../../`)
+2. Use `@exec0/*` for shared workspace packages
+3. Use relative paths only within the same feature folder
+
+```ts
+// Correct
+import { auth } from "@exec0/auth";
+import { Button } from "@exec0/ui/button";
+import { db } from "@/lib/db";
+import { executeLambda } from "./service";  // same feature
+
+// Wrong
+import { db } from "../../lib/db";
+```
+
+## Naming Conventions
+
+| Entity | Convention | Example |
+|--------|-----------|---------|
+| Files | kebab-case | `auth-client.ts`, `usage-chart.tsx` |
+| Components | PascalCase | `UsageChart`, `KeysTable` |
+| Functions/vars | camelCase | `createApiKey`, `recordUsage` |
+| Hooks | camelCase `use` prefix | `useOrgSlug`, `useSaveOrgSlug` |
+| Types/Interfaces | PascalCase | `ExecuteRequest`, `ApiKeyRecord` |
+| Constants (config/env) | SCREAMING_SNAKE_CASE | `RAM_ALLOCATIONS`, `TTL_90_DAYS` |
+| Zod schemas | camelCase `Schema` suffix | `executeRequestSchema` |
+| Component props types | PascalCase `Props` suffix | `KeysTableProps` |
+| Hono routers | camelCase `Router` suffix | `executeRouter`, `keysRouter` |
+
+## Error Handling
+
+### API (Hono)
+```ts
+// Return structured errors with semantic HTTP codes
+return c.json({ error: "Unauthorized" }, 401);
+return c.json({ error: "API key is disabled" }, 403);
+return c.json({ error: "Internal server error" }, 500);
+
+// Fire-and-forget for non-critical operations
+trackUsage(data).catch(console.error);
+```
+
+### Server Actions (Next.js)
+```ts
+// Always return { success, error?, data? }
+export async function createKey(input: unknown) {
+  const session = await getSession();
+  if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+  const parsed = createKeySchema.safeParse(input);
+  if (!parsed.success) return { success: false, error: "Invalid input" };
+
+  // ... do work
+  revalidatePath("/[slug]/keys");
+  return { success: true, data: result };
 }
 ```
 
-### React & Component Guidelines
-- Use React 19+ features (Server Components in Next.js 16+)
-- Prefer functional components with hooks
-- Use Tailwind CSS + CVA (class-variance-authority) for styling
-- Extract components to `@exec0/ui` package when reusable
-- Export components via barrel files (`index.ts`)
-
-### Next.js Specific
-- Use App Router (not Pages Router)
-- Use `@/` alias for app root imports
-- Server components by default; use `"use client"` sparingly
-- Route groups with parentheses: `(auth)`, `(app)`, `(marketing)`
-- API routes via `route.ts` files
-
-## File Structure
-```
-exec0/
-├── apps/
-│   ├── web/               # Next.js frontend
-│   ├── api/               # Hono Lambda API
-│   └── functions/         # AWS Lambda functions
-├── packages/
-│   ├── auth/              # Better-auth integration
-│   ├── database/          # Prisma ORM
-│   ├── keys/              # Key management
-│   └── ui/                # Shadcn/ui + custom components
-├── biome.json             # Shared linting/formatting config
-├── tsconfig.json          # Shared TypeScript config
-├── turbo.json             # Turborepo config
-└── package.json           # Root workspace
+### Lambda Functions
+```ts
+try {
+  // execution
+} catch (err) {
+  return {
+    statusCode: 500,
+    body: JSON.stringify({
+      error: err instanceof Error ? err.message : String(err),
+    }),
+  };
+}
 ```
 
-## Quick Checklist Before Committing
-- [ ] Run `bun run lint` (fixes issues automatically)
-- [ ] Run `bun run format` (if needed separately)
-- [ ] Check TypeScript: `bun tsc --noEmit` (at workspace root or per-package)
-- [ ] Verify imports are organized (should be automatic)
-- [ ] No unused variables or parameters
-- [ ] All types explicitly defined (no implicit `any`)
-- [ ] Error handling is proper (Zod validation where needed)
+### Environment Variables
+Validate with Zod at startup — fail fast:
+```ts
+const envSchema = z.object({ DATABASE_URL: z.string() });
+export const env = envSchema.parse(process.env);
+```
 
-## Key Dependencies
-- **Framework**: Next.js 16.1+, React 19, Hono
-- **Styling**: Tailwind CSS 4, CVA, Shadcn/ui
-- **Auth**: Better-auth 1.4.7
-- **Database**: Prisma
-- **Schema Validation**: Zod 4.2+
-- **UI Utilities**: Lucide React, Sonner (toast)
-- **Build**: Turbo, esbuild, Biome
+## Architecture Patterns
 
-## Resources
-- [Biome Docs](https://biomejs.dev)
-- [TypeScript Config](./tsconfig.json)
-- [Biome Config](./biome.json)
-- [Root Package.json](./package.json)
+### Next.js App Router
+- Route groups: `(app)` (authenticated dashboard), `(auth)`, `(docs)`, `(marketing)`
+- Auth guard in `(app)/layout.tsx` — redirects to `/login` if no session
+- Server-first: RSC by default, `"use client"` only where necessary
+- Mutations via `"use server"` server actions + `revalidatePath()` for cache invalidation
+- React Compiler enabled (`reactCompiler: true` in next.config)
+
+### Feature Structure (API)
+Each feature in `apps/api/src/features/<name>/` has:
+- `routes.ts` — Hono router with `describeRoute()` for OpenAPI
+- `service.ts` — business logic
+- `schemas.ts` — Zod schemas (if needed)
+
+### Shared Packages
+Packages export directly from `src/` — no build step required. They're source-first via `"exports"` in `package.json` pointing to `./src/index.ts`.
+
+### State Management
+No global state library. Use:
+- RSC + server actions as primary data layer
+- `useState`/`useEffect` for local UI state only
+- `localStorage` for persisting lightweight client preferences (e.g., active org slug)
+- `authClient` from Better-Auth for session state on the client
+
+### Validation
+Use Zod v4 across all layers (API, server actions, env vars, schemas package). Prefer `z.object().parse()` for hard failures and `.safeParse()` when you want to handle validation errors gracefully.
+
+## SST Infrastructure
+
+Resources are referenced type-safely via `Resource.X.name` (from `sst-env.d.ts`). When adding new Lambda functions:
+1. Define in `infra/functions.ts` with `new sst.aws.Function()`
+2. Link required resources with `link: [table, ...]` — this auto-grants IAM permissions
+3. Reference in runtime with `Resource.TableName.name`
+
+## UI Components
+
+UI primitives live in `packages/ui/src/`. Built on:
+- Radix UI primitives for accessibility
+- `class-variance-authority` (CVA) for variant-based component APIs
+- `tailwind-merge` for conditional class merging
+
+Use `cn()` utility from `@exec0/ui/cn` for conditional Tailwind classes:
+```ts
+import { cn } from "@exec0/ui/cn";
+className={cn("base-class", isActive && "active-class")}
+```
