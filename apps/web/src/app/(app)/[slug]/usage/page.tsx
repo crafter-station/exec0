@@ -25,16 +25,23 @@ const PERIOD_MAP: Record<Period, "week" | "month"> = {
   month: "month",
 };
 
-function buildChartData(records: UsageRecord[]) {
-  const byDay = aggregateByDay(records);
-  const entries = Object.entries(byDay) as [string, number][];
+const PERIOD_DAYS: Record<Period, number> = {
+  "7d": 7,
+  "30d": 30,
+  month: 30,
+};
 
-  return entries
-    .map(([dateStr, count]) => ({
-      date: new Date(dateStr),
-      executions: count,
-    }))
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+function buildChartData(records: UsageRecord[], periodDays: number) {
+  const byDay = aggregateByDay(records);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return Array.from({ length: periodDays }, (_, i) => {
+    const date = new Date(today);
+    date.setDate(date.getDate() - (periodDays - 1 - i));
+    const key = date.toISOString().split("T")[0] as string;
+    return { date, executions: byDay[key] ?? 0 };
+  });
 }
 
 export default async function UsagePage({
@@ -59,24 +66,22 @@ export default async function UsagePage({
 
   if (records.length === 0) {
     return (
-
-        <Empty>
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <IconWindowChartLineFillDuo18 className="size-6" />
-            </EmptyMedia>
-            <EmptyTitle>No executions yet</EmptyTitle>
-            <EmptyDescription>
-              Usage data will appear here once you start making API calls with
-              your keys.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <IconWindowChartLineFillDuo18 className="size-6" />
+          </EmptyMedia>
+          <EmptyTitle>No executions yet</EmptyTitle>
+          <EmptyDescription>
+            Usage data will appear here once you start making API calls with
+            your keys.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
     );
   }
 
-  const chartData = buildChartData(records);
+  const chartData = buildChartData(records, PERIOD_DAYS[period]);
   const sortedRecords = [...records].sort((a, b) => b.timestamp - a.timestamp);
 
   return (

@@ -20,9 +20,9 @@ interface UsageChartProps {
 
 export function UsageChart({ data }: UsageChartProps) {
   return (
-    <Card className="w-full border-border/50">
+    <Card className="w-full border-border">
       <div className="w-full">
-        <AreaChart data={data}>
+        <AreaChart className="max-h-64" data={data}>
           <Grid horizontal />
           <Area
             dataKey="executions"
@@ -41,7 +41,6 @@ export function UsageChart({ data }: UsageChartProps) {
 function UsageTooltip() {
   return (
     <ChartTooltip
-      className="bg-card"
       rows={(point) => [
         {
           color: "var(--chart-line-primary)",

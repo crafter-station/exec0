@@ -15,6 +15,8 @@ export const usageRecordSchema = z.object({
   language: languageSchema,
   resources: resourcesSchema,
   deltaTime: z.number().nonnegative(),
+  code: z.string().max(100_000).optional(),
+  output: z.string().max(100_000).optional(),
   schemaVersion: z.literal(1),
   ttl: z.number().int().positive(),
 });

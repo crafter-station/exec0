@@ -27,6 +27,10 @@ app.post(
     const result = await executeLambda(payload);
 
     // Fire-and-forget usage tracking
+    const output = [result.result.stdout, result.result.stderr]
+      .filter(Boolean)
+      .join("\n");
+
     recordUsage(Resource.Usage.name, {
       ownerId: apiKey.metadata.ownerId,
       apiKeyId: apiKey.id,
@@ -34,6 +38,8 @@ app.post(
       language: payload.language,
       resources: payload.resources,
       deltaTime: result.executionTime,
+      code: payload.code,
+      output: output || undefined,
     }).catch(console.error);
 
     return c.json(result);
