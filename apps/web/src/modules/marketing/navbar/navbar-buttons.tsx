@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@exec0/ui/dropdown-menu";
+import { Skeleton } from "@exec0/ui/skeleton";
 import { Link } from "next-view-transitions";
 import {
   IconArrowDoorOut3FillDuo18,
@@ -24,8 +25,17 @@ import ThemeToggleText from "@/components/mode-togle-text";
 import { getCachedOrgSlug } from "@/hooks/use-org-slug";
 
 export function NavbarButtons() {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const slug = getCachedOrgSlug();
+
+  if (isPending) {
+    return (
+      <div className="flex items-center gap-2 mr-3">
+        <Skeleton className="h-7 w-27 rounded-md mr-7" />
+        <Skeleton className="h-7 w-7 rounded-full" />
+      </div>
+    );
+  }
 
   if (!session) {
     return (
@@ -38,7 +48,7 @@ export function NavbarButtons() {
           </Link>
         </Button>
         <Button variant="default" size="sm" asChild>
-          <Link href="/login">Login</Link>
+          <Link prefetch={true} href="/login">Login</Link>
         </Button>
       </div>
     );

@@ -38,7 +38,7 @@ export default async function DashboardPage({
             </span>
           </Card>
         </Link>
-        <Link href={`/${slug}/usage`}>
+        <Link prefetch={true} href={`/${slug}/usage`}>
           <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100 cursor-pointer">
             <IconWindowChartLineFillDuo18 className="size-6 chart-breadcrumb-icon" />
             <span className="text-sm font-semibold font-mono chart-breadcrumb-title">
@@ -46,7 +46,7 @@ export default async function DashboardPage({
             </span>
           </Card>
         </Link>
-        <Link href={`/${slug}/playground`}>
+        <Link prefetch={true} href={`/${slug}/playground`}>
           <Card className="flex flex-col gap-2 px-6 border-border/50 hover:border-border transition duration-100 cursor-pointer">
             <IconGamingButtonsFillDuo18 className="size-6" />
             <span className="text-sm font-semibold font-mono">Playground</span>
