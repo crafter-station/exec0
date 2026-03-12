@@ -1,6 +1,7 @@
 import { auth } from "@exec0/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getCachedSession } from "@/lib/session";
 import HeaderDashboard from "@/modules/dashboard/header";
 
 export default async function LayoutDashboard({
@@ -13,15 +14,14 @@ export default async function LayoutDashboard({
   const { slug } = await params;
   const h = await headers();
 
-  const session = await auth.api.getSession({ headers: h });
+  const [session, organizations] = await Promise.all([
+    getCachedSession(),
+    auth.api.listOrganizations({ headers: h }),
+  ]);
 
   if (!session) {
     redirect("/");
   }
-
-  const organizations = await auth.api.listOrganizations({
-    headers: h,
-  });
 
   const org = organizations.find((o) => o.slug === slug);
 

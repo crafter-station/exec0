@@ -7,6 +7,7 @@ import {
 } from "@exec0/ui/empty";
 import type { UsageRecord } from "@exec0/usage";
 import { IconWindowChartLineFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
+import { Suspense } from "react";
 import {
   aggregateByDay,
   getTimePeriod,
@@ -16,6 +17,7 @@ import {
 import { DatePeriodSelector } from "@/modules/usage/date-period-selector";
 import { ExecutionLog } from "@/modules/usage/execution-log";
 import { UsageChart } from "@/modules/usage/usage-chart";
+import { UsageSkeleton } from "@/modules/usage/usage-skeleton";
 
 type Period = "7d" | "30d" | "month";
 
@@ -59,9 +61,23 @@ export default async function UsagePage({
       ? rawPeriod
       : "30d";
 
-  const timePeriod = PERIOD_MAP[period];
-  const timeRange = getTimePeriod(timePeriod);
+  return (
+    <div className="space-y-4">
+      <Suspense fallback={<UsageSkeleton />}>
+        <UsageContent slug={slug} period={period} />
+      </Suspense>
+    </div>
+  );
+}
 
+async function UsageContent({
+  slug,
+  period,
+}: {
+  slug: string;
+  period: Period;
+}) {
+  const timeRange = getTimePeriod(PERIOD_MAP[period]);
   const records = await getUsageByOwner(usageTable, slug, timeRange);
 
   if (records.length === 0) {
@@ -85,8 +101,7 @@ export default async function UsagePage({
   const sortedRecords = [...records].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
+    <>
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h1 className="text-lg font-medium font-mono">Usage</h1>
@@ -96,12 +111,8 @@ export default async function UsagePage({
         </div>
         <DatePeriodSelector currentPeriod={period} />
       </div>
-
-      {/* Chart */}
       <UsageChart data={chartData} />
-
-      {/* Execution Log */}
       <ExecutionLog records={sortedRecords} />
-    </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 ---
 name: nextjs-data-fetching
-description: Data fetching patterns in Next.js App Router. Use whenever the user needs to fetch data in Server Components, implement Suspense streaming, handle multiple concurrent requests, or optimize data loading. Covers fetch API, ORM integration, parallel/sequential data patterns, and streaming UI.
+description: Data fetching patterns in Next.js App Router. Use whenever the user needs to fetch data in Server Components, implement Suspense streaming, handle multiple concurrent requests, or optimize data loading. Covers fetch API, ORM integration, parallel/sequential data patterns, and streaming UI. Only use Suspense boundaries directly - never use loading.tsx pattern.
 ---
 
 # Next.js Data Fetching with Server Components & Suspense
@@ -242,11 +242,37 @@ async function BlogList() {
 }
 ```
 
+## ⚠️ FORBIDDEN: loading.tsx
+
+**DO NOT USE** Next.js `loading.tsx` pattern. Use `<Suspense>` directly in your components only.
+
+```typescript
+// ❌ DON'T DO THIS
+// app/blog/loading.tsx
+export default function Loading() {
+  return <div>Loading...</div>
+}
+
+// ✅ DO THIS INSTEAD
+// app/blog/page.tsx
+import { Suspense } from 'react'
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogList />
+    </Suspense>
+  )
+}
+```
+
+`loading.tsx` is automatic but inflexible. `<Suspense>` gives you full control.
+
 ## Quick Reference
 
 - **Always use Server Components** by default for data fetching
 - **One data fetch per component** to keep logic isolated
-- **Use Suspense boundaries** for granular loading states
+- **Use Suspense boundaries** for granular loading states (NO loading.tsx)
 - **Separate Suspense** for independent data = better UX
 - **Promise.all** for data that must load together
 - **cache: 'no-store'** for dynamic, **cache: 'force-cache'** for static
