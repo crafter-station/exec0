@@ -1,9 +1,9 @@
 "use server";
 
-import { z } from "zod";
-import { revalidatePath } from "next/cache";
 import { auth } from "@exec0/auth";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { z } from "zod";
 import keys from "@/lib/keys";
 
 const createApiKeySchema = z.object({
@@ -14,7 +14,7 @@ const createApiKeySchema = z.object({
   expiresAt: z.string().optional(),
 });
 
-export async function createApiKey(prevState: any, formData: FormData) {
+export async function createApiKey(_prevState: any, formData: FormData) {
   const requestHeaders = await headers();
 
   const session = await auth.api.getSession({

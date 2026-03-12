@@ -3,9 +3,8 @@
 import { auth } from "@exec0/auth";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
-export async function createOrganization(prevState: any, formData: FormData) {
+export async function createOrganization(_prevState: any, formData: FormData) {
   const name = formData.get("name") as string;
   const slug = formData.get("slug") as string;
 

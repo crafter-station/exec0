@@ -1,16 +1,12 @@
-import { auth } from "@exec0/auth";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getCachedSession } from "@/lib/session";
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  //verify user session
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getCachedSession();
   if (!session) {
     redirect("/login");
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@exec0/auth/client";
+import { GithubIcon } from "@exec0/ui/assets";
 import { Avatar, AvatarFallback, AvatarImage } from "@exec0/ui/avatar";
 import { Button } from "@exec0/ui/button";
 import {
@@ -10,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@exec0/ui/dropdown-menu";
+import { Skeleton } from "@exec0/ui/skeleton";
 import { Link } from "next-view-transitions";
 import {
   IconArrowDoorOut3FillDuo18,
@@ -18,14 +20,22 @@ import {
   IconOfficeFillDuo18,
   IconUserFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
+import ModeToggle from "@/components/mode-toggle";
 import ThemeToggleText from "@/components/mode-togle-text";
 import { getCachedOrgSlug } from "@/hooks/use-org-slug";
-import { GithubIcon } from "@exec0/ui/assets";
-import ModeToggle from "@/components/mode-toggle";
 
 export function NavbarButtons() {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const slug = getCachedOrgSlug();
+
+  if (isPending) {
+    return (
+      <div className="flex items-center gap-2 mr-3">
+        <Skeleton className="h-7 w-27 rounded-md mr-7" />
+        <Skeleton className="h-7 w-7 rounded-full" />
+      </div>
+    );
+  }
 
   if (!session) {
     return (
@@ -38,7 +48,7 @@ export function NavbarButtons() {
           </Link>
         </Button>
         <Button variant="default" size="sm" asChild>
-          <Link href="/login">Login</Link>
+          <Link prefetch={true} href="/login">Login</Link>
         </Button>
       </div>
     );
@@ -47,7 +57,7 @@ export function NavbarButtons() {
   return (
     <div className="flex items-center gap-1">
       <Button variant="outline" size="sm" asChild>
-        <Link href={slug ? `/${slug}` : "/teams"}>
+        <Link prefetch={true} href={slug ? `/${slug}` : "/teams"}>
           <IconOfficeFillDuo18 />
           Dashboard
         </Link>

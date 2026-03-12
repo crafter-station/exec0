@@ -58,9 +58,26 @@ export function createStorage(tableName: string): Storage {
     },
 
     updateMetadata: async (id, metadata) => {
-      await apiKeysTable.update({ id }, "SET metadata = :metadata", {
-        ":metadata": metadata,
-      });
+      // Build dynamic update expression to merge metadata fields
+      const updateExpressions: string[] = [];
+      const expressionAttributeValues: Record<string, any> = {};
+      const expressionAttributeNames: Record<string, string> = {};
+
+      for (const [key, value] of Object.entries(metadata)) {
+        const placeholderKey = `:meta_${key}`;
+        updateExpressions.push(`metadata.#${key} = ${placeholderKey}`);
+        expressionAttributeValues[placeholderKey] = value;
+        expressionAttributeNames[`#${key}`] = key;
+      }
+
+      if (updateExpressions.length > 0) {
+        await apiKeysTable.update(
+          { id },
+          `SET ${updateExpressions.join(", ")}`,
+          expressionAttributeValues,
+          expressionAttributeNames,
+        );
+      }
     },
 
     delete: async (id) => {

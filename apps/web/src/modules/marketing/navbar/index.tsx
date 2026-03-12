@@ -21,18 +21,18 @@ export function Navbar() {
           </li>
           <li>
             <Link
-              href="/about"
+              href="/docs"
               className="text-muted-foreground hover:text-primary text-sm"
             >
-              About
+              Docs
             </Link>
           </li>
           <li>
             <Link
-              href="/contact"
+              href="/pricing"
               className="text-muted-foreground hover:text-primary text-sm"
             >
-              Contact
+              Pricing
             </Link>
           </li>
         </ul>

@@ -1,15 +1,5 @@
-import ThemeToggleText from "@/components/mode-togle-text";
 import { Logo } from "@exec0/ui/assets";
 import { Avatar, AvatarFallback, AvatarImage } from "@exec0/ui/avatar";
-import { Button } from "@exec0/ui/button";
-import { Separator } from "@exec0/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@exec0/ui/dropdown-menu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,6 +7,15 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@exec0/ui/breadcrumb";
+import { Button } from "@exec0/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@exec0/ui/dropdown-menu";
+import { Separator } from "@exec0/ui/separator";
 import { Link } from "next-view-transitions";
 import {
   IconArrowDoorOut3FillDuo18,
@@ -26,27 +25,19 @@ import {
   IconOfficeFillDuo18,
   IconUserFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
-import type { auth } from "@exec0/auth";
+import ThemeToggleText from "@/components/mode-togle-text";
 import BreadcrumbNavigation from "./breadcrumb-navigation";
 import OrgSlugSync from "./org-slug-sync";
 
-export type Session = typeof auth.$Infer.Session;
-export type User = Session["user"];
-export type Organization = Awaited<
-  ReturnType<typeof auth.api.listOrganizations>
->[number];
-
-interface HeaderDashboardProps {
-  organizations: Organization[];
-  currentOrg: Organization;
-  user: User;
-}
-// https://github.com/vercel-labs/next-skills/blob/main/skills/next-best-practices/rsc-boundaries.md
 export default function HeaderDashboard({
   organizations,
   currentOrg,
   user,
-}: HeaderDashboardProps) {
+}: {
+  organizations: { id: string; name: string; slug: string }[];
+  currentOrg: { id: string; name: string; slug: string };
+  user: { id: string; name: string | null };
+}) {
   return (
     <div>
       <OrgSlugSync slug={currentOrg.slug} />

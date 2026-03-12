@@ -1,9 +1,9 @@
 import { prisma, redis } from "@exec0/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth/minimal";
+import { nextCookies } from "better-auth/next-js";
 import { organization } from "better-auth/plugins";
 import { reservedSlugs } from "../const";
-import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
   appName: "Exec0",

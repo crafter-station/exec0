@@ -15,7 +15,7 @@ export async function handler(event: any) {
 
     let output = "";
     const console_log = (...args: any[]) => {
-      output += args.join(" ") + "\n";
+      output += `${args.join(" ")}\n`;
     };
 
     const wrappedCode = `(async () => { ${code} })()`;

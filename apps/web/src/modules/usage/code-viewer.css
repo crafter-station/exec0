@@ -1,0 +1,57 @@
+/* Prism token colors — respects light/dark mode */
+
+.code-viewer .token.comment,
+.code-viewer .token.prolog,
+.code-viewer .token.doctype,
+.code-viewer .token.cdata {
+  color: var(--color-muted-foreground);
+}
+
+.code-viewer .token.punctuation {
+  color: var(--color-foreground);
+  opacity: 0.7;
+}
+
+.code-viewer .token.tag,
+.code-viewer .token.keyword,
+.code-viewer .token.operator {
+  color: var(--color-foreground);
+  opacity: 0.8;
+}
+
+.code-viewer .token.attr-name,
+.code-viewer .token.string,
+.code-viewer .token.char,
+.code-viewer .token.builtin,
+.code-viewer .token.inserted {
+  color: var(--color-muted-foreground);
+}
+
+.code-viewer .token.number,
+.code-viewer .token.constant,
+.code-viewer .token.symbol,
+.code-viewer .token.boolean {
+  color: var(--color-foreground);
+}
+
+.code-viewer .token.property,
+.code-viewer .token.function,
+.code-viewer .token.class-name,
+.code-viewer .token.selector,
+.code-viewer .token.variable,
+.code-viewer .token.parameter {
+  color: var(--color-foreground);
+}
+
+.code-viewer .token.regex,
+.code-viewer .token.important {
+  color: var(--color-muted-foreground);
+}
+
+.code-viewer .token.bold {
+  font-weight: bold;
+}
+
+.code-viewer .token.italic {
+  font-style: italic;
+}

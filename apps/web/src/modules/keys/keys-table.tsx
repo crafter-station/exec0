@@ -64,8 +64,8 @@ export function KeysTable({
   };
 
   return (
-    <div >
-      <Table className="border-separate border-spacing-y-2 ">
+    <div>
+      <Table className="border-separate border-spacing-y-1.5 ">
         <TableHeader>
           <TableRow className="hover:bg-transparent border-none [&>th]:text-muted-foreground">
             <TableHead className="px-6">Key</TableHead>
@@ -81,86 +81,85 @@ export function KeysTable({
               key={key.id}
               className="group bg-card [&>td]:first:rounded-l-sm [&>td]:last:rounded-r-sm"
             >
-                <TableCell className="px-6">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {key.metadata.name || "Unnamed Key"}
-                    </p>
-                    {/*{key.metadata.description && (
+              <TableCell className="px-6">
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    {key.metadata.name || "Unnamed Key"}
+                  </p>
+                  {/*{key.metadata.description && (
                       <p className="text-sm text-foreground/60 line-clamp-1">
                         {key.metadata.description}
                       </p>
                     )}*/}
-                  </div>
-                </TableCell>
-                <TableCell className="px-6 text-sm text-foreground/70">
-                  {formatDate(key.metadata.createdAt)}
-                </TableCell>
-                <TableCell className="px-6 text-sm text-foreground/70">
-                  {formatDate(key.metadata.lastUsedAt)}
-                </TableCell>
-                <TableCell className="px-6">
-                  <Badge
-                    variant={
-                      isRevoked(key.metadata.revokedAt)
-                        ? "destructive"
-                        : isExpired(key.metadata.expiresAt)
-                          ? "outline"
-                          : key.metadata.enabled === false
-                            ? "secondary"
-                            : "default"
-                    }
-                  >
-                    {isRevoked(key.metadata.revokedAt)
-                      ? "Revoked"
+                </div>
+              </TableCell>
+              <TableCell className="px-6 text-sm text-foreground/70">
+                {formatDate(key.metadata.createdAt)}
+              </TableCell>
+              <TableCell className="px-6 text-sm text-foreground/70">
+                {formatDate(key.metadata.lastUsedAt)}
+              </TableCell>
+              <TableCell className="px-6">
+                <Badge
+                  variant={
+                    isRevoked(key.metadata.revokedAt)
+                      ? "destructive"
                       : isExpired(key.metadata.expiresAt)
-                        ? "Expired"
+                        ? "outline"
                         : key.metadata.enabled === false
-                          ? "Disabled"
-                          : "Active"}
-                  </Badge>
-                </TableCell>
-                <TableCell className="px-6 text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        aria-label="Open menu"
-                      >
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => onCopy?.(key.keyHash)}
-                        disabled={isRevoked(key.metadata.revokedAt)}
-                      >
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy hash
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => onRotate?.(key.id)}
-                        disabled={isRevoked(key.metadata.revokedAt)}
-                      >
-                        <RotateCw className="h-4 w-4 mr-2" />
-                        Rotate
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => onRevoke?.(key.id)}
-                        disabled={isRevoked(key.metadata.revokedAt)}
-                        className="text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Revoke
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))
-          }
+                          ? "secondary"
+                          : "default"
+                  }
+                >
+                  {isRevoked(key.metadata.revokedAt)
+                    ? "Revoked"
+                    : isExpired(key.metadata.expiresAt)
+                      ? "Expired"
+                      : key.metadata.enabled === false
+                        ? "Disabled"
+                        : "Active"}
+                </Badge>
+              </TableCell>
+              <TableCell className="px-6 text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Open menu"
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => onCopy?.(key.keyHash)}
+                      disabled={isRevoked(key.metadata.revokedAt)}
+                    >
+                      <Copy className="h-4 w-4 mr-2" />
+                      Copy hash
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => onRotate?.(key.id)}
+                      disabled={isRevoked(key.metadata.revokedAt)}
+                    >
+                      <RotateCw className="h-4 w-4 mr-2" />
+                      Rotate
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => onRevoke?.(key.id)}
+                      disabled={isRevoked(key.metadata.revokedAt)}
+                      className="text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Revoke
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

@@ -18,6 +18,8 @@
     "hono": "^4.11.1",
     "hono-openapi": "^1.1.2",
     "zod": "^4.2.1",
-    "@exec0/keys": "*"
+    "@exec0/keys": "*",
+    "@exec0/schemas": "*",
+    "@exec0/usage": "*"
   }
 }

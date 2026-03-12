@@ -47,6 +47,7 @@ export class DynamoDBTable {
     key: Record<string, any>,
     updateExpression: string,
     expressionAttributeValues: Record<string, any>,
+    expressionAttributeNames?: Record<string, string>,
   ) {
     const result = await dynamoDBClient.send(
       new UpdateItemCommand({
@@ -57,6 +58,7 @@ export class DynamoDBTable {
           expressionAttributeValues,
           marshallOptions,
         ),
+        ExpressionAttributeNames: expressionAttributeNames,
         ReturnValues: "ALL_NEW",
       }),
     );

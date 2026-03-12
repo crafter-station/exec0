@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@exec0/ui/button";
+import dynamic from "next/dynamic";
 // import dynamic from "next/dynamic";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
-import dynamic from "next/dynamic";
 import CodeEditor from "./code-editor";
 
 // // Lazy load GameOfLife not SSR
