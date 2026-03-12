@@ -31,7 +31,7 @@ export default function LoginPage() {
             rotation={0}
           />
         </div>
-        <h1 className="relative z-10 text-xl text-muted-foreground font-medium text-center px-8">
+        <h1 className="relative z-10 text-xl text-neutral-300 font-medium text-center px-8">
           We've been looking for a product like Exec0 for a really long time -
           code executions that's simple and developer-focused.
         </h1>
