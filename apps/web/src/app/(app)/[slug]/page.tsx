@@ -1,4 +1,3 @@
-import { Badge } from "@exec0/ui/badge";
 import { Card } from "@exec0/ui/card";
 import {
   Empty,
@@ -8,6 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@exec0/ui/empty";
+import { Status, StatusIndicator, StatusLabel } from "@exec0/ui/status";
 import { Link } from "next-view-transitions";
 import {
   IconGamingButtonsFillDuo18,
@@ -125,26 +125,28 @@ async function RecentKeys({ slug }: { slug: string }) {
                 <span className="text-sm text-foreground">
                   {apiKey.metadata.name || "Unnamed Key"}
                 </span>
-                <Badge
+                <Status
                   variant={
                     isRevoked
-                      ? "destructive"
+                      ? "error"
                       : isExpired
-                        ? "outline"
+                        ? "warning"
                         : isDisabled
-                          ? "secondary"
-                          : "default"
+                          ? "default"
+                          : "success"
                   }
-                  className="text-[10px] px-1.5 py-0"
                 >
-                  {isRevoked
-                    ? "Revoked"
-                    : isExpired
-                      ? "Expired"
-                      : isDisabled
-                        ? "Disabled"
-                        : "Active"}
-                </Badge>
+                  <StatusIndicator />
+                  <StatusLabel>
+                    {isRevoked
+                      ? "Revoked"
+                      : isExpired
+                        ? "Expired"
+                        : isDisabled
+                          ? "Disabled"
+                          : "Active"}
+                  </StatusLabel>
+                </Status>
               </div>
               <span className="text-xs text-muted-foreground">
                 {apiKey.metadata.createdAt
