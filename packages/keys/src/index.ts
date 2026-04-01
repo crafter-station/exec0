@@ -9,7 +9,7 @@ export function createKeysInstance(storage: Storage) {
     prefix: "ex0_",
     length: 32,
     algorithm: "sha256",
-    salt: process.env.API_KEY_SALT,
+    salt: process.env.BETTER_AUTH_SECRET,
     storage,
     autoTrackUsage: true,
     auditLogs: true,

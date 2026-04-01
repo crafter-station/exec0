@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@exec0/ui/badge";
 import { Button } from "@exec0/ui/button";
 import {
   DropdownMenu,
@@ -8,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@exec0/ui/dropdown-menu";
+import { Status, StatusIndicator, StatusLabel } from "@exec0/ui/status";
 import {
   Table,
   TableBody,
@@ -100,25 +100,28 @@ export function KeysTable({
                 {formatDate(key.metadata.lastUsedAt)}
               </TableCell>
               <TableCell className="px-6">
-                <Badge
+                <Status
                   variant={
                     isRevoked(key.metadata.revokedAt)
-                      ? "destructive"
+                      ? "error"
                       : isExpired(key.metadata.expiresAt)
-                        ? "outline"
+                        ? "warning"
                         : key.metadata.enabled === false
-                          ? "secondary"
-                          : "default"
+                          ? "default"
+                          : "success"
                   }
                 >
-                  {isRevoked(key.metadata.revokedAt)
-                    ? "Revoked"
-                    : isExpired(key.metadata.expiresAt)
-                      ? "Expired"
-                      : key.metadata.enabled === false
-                        ? "Disabled"
-                        : "Active"}
-                </Badge>
+                  <StatusIndicator />
+                  <StatusLabel>
+                    {isRevoked(key.metadata.revokedAt)
+                      ? "Revoked"
+                      : isExpired(key.metadata.expiresAt)
+                        ? "Expired"
+                        : key.metadata.enabled === false
+                          ? "Disabled"
+                          : "Active"}
+                  </StatusLabel>
+                </Status>
               </TableCell>
               <TableCell className="px-6 text-right">
                 <DropdownMenu>
