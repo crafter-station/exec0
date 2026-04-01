@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
@@ -232,4 +233,43 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Streaming text animations */
+@keyframes stream-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(4px);
+  }
+  70% {
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes token-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  70% {
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.streaming-fade > * {
+  animation: stream-fade-in 0.45s ease-out both;
+}
+
+.token-fade {
+  animation: token-fade-in 0.3s ease-out both;
 }

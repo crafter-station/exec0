@@ -2,10 +2,21 @@
 
 import { Button } from "@exec0/ui/button";
 import dynamic from "next/dynamic";
-// import dynamic from "next/dynamic";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
-import CodeEditor from "./code-editor";
+
+const PlaygroundChat = dynamic(
+  () =>
+    import("./playground/playground-chat").then((m) => ({
+      default: m.PlaygroundChat,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[600px] w-full animate-pulse rounded-xl border bg-muted/30" />
+    ),
+  },
+);
 
 // // Lazy load GameOfLife not SSR
 const GameOfLife = dynamic(() => import("./background"), {
@@ -44,8 +55,8 @@ export default function Hero() {
         <div className="absolute inset-0">
           <GameOfLife />
         </div>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="py-22 md:pb-44 flex flex-col items-center text-center">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="py-16 md:py-22 md:pb-44 flex flex-col items-center text-center">
             <TextEffect
               preset="fade-in-blur"
               speedSegment={0.3}
@@ -95,9 +106,9 @@ export default function Hero() {
                 },
                 ...transitionVariants,
               }}
-              className="mt-12 w-full max-w-6xl"
+              className="mt-12 w-full max-w-4xl"
             >
-              <CodeEditor />
+              <PlaygroundChat />
             </AnimatedGroup>
           </div>
         </div>
